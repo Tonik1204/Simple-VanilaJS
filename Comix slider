@@ -1,0 +1,134 @@
+/* ----------------------------------------------------------------------------------------------
+Недостатки реализации:
+
+ -> Из-за того, что для получения данных использовалась разметка конкретного сайта, 
+    следующий код будет валиден только на нем http://www.explosm.net/comics/ .
+    -> при крокручивании ленты могут попадаться белые <img> с play-button по центру-
+	по хорошему, они должны быть оббернуты в теги <a>-ссылки на видео, но этот вариант тут не реализован.
+	-> при запуске ф-ции изменяется dom для удобства работы с лентой комиксов
+    -----------------------------------------------------------------------------------------------*/
+"use strict";
+
+//------------------------TOOLS------------------------------	
+	     
+function closest(node, callback) {
+         var perent = node;
+         while (perent && !callback(perent)) {
+             perent = perent.parentNode;
+         }
+         return perent;
+     }
+
+	function addEvent(obj, event_name, handler) {
+          if (obj.addEventListener) {
+              obj.addEventListener(event_name, handler, false);
+          } else if (obj.attachEvent) {
+              obj.attachEvent('on' + event_name, handler);
+          }
+      }
+	  
+	function removeEvent(obj, event_name, handler) {
+		if (obj.removeEventListener) {
+			obj.removeEventListener(event_name, handler, false);
+		} else {
+			obj.detachEvent('on' + event_name, handler);
+		}
+	}
+
+	function getCoords(elem) {
+		var box = elem.getBoundingClientRect();
+		var body = document.body;
+		var docEl = document.documentElement;
+		var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+		var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+		var clientTop = docEl.clientTop || body.clientTop || 0;
+		var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+		var top  = box.top +  scrollTop - clientTop;
+		var left = box.left + scrollLeft - clientLeft;
+		return { top: Math.round(top), left: Math.round(left) };
+	}
+	
+//------------------------MAIN PART------------------------------
+
+(function()  {
+
+	 var comix;
+	if (document.querySelector('[alt="Cyanide and Happiness, a daily webcomic"]')!== null){
+		comix = document.querySelector('[alt="Cyanide and Happiness, a daily webcomic"]');
+	} else {
+		comix = document.querySelector('iframe');
+	}
+	var nextPageUrl=document.querySelector('[rel="next"]').href;
+	var firstPageUrl=document.querySelector('[rel="first"]').href;
+	var mainContainer = closest(comix, function(node) {
+		return node.hasAttribute('align','center');
+	});
+	var comixContainer=document.createElement('div');
+	mainContainer.insertBefore(comixContainer, mainContainer.lastChild);
+	mainContainer.removeChild(mainContainer.querySelector('div'));
+	comixContainer.appendChild(comix);
+	
+	function getNewComix(url){	
+		var xhr = new XMLHttpRequest();		
+		xhr.onreadystatechange = function() {  
+		
+			var newComixUrl, comixiIdentify;	
+				if (this.readyState != 4) return;    
+				if (this.status != 200) {
+					alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+					return; 
+				} 
+				var newContainer=document.createElement('body');
+				newContainer.innerHTML = this.responseText.match(/<body>[\s\S]*<\/body>/gim)[0];
+				
+				if (newContainer.querySelector('[rel="next"]')!== null){
+				
+					if (newContainer.querySelector('[alt="Cyanide and Happiness, a daily webcomic"]')!==null){
+						newComixUrl = newContainer.querySelector('[alt="Cyanide and Happiness, a daily webcomic"]').src;
+						comixiIdentify="img";
+					} else {
+						newComixUrl = newContainer.querySelector('iframe').src;
+						comixiIdentify="video";
+					}
+					setNewComix(newComixUrl, comixiIdentify);
+					nextPageUrl = newContainer.querySelector('[rel="next"]').href;
+				} else {
+					newComixUrl = newContainer.querySelector('[alt="Cyanide and Happiness, a daily webcomic"]').src;
+					comixiIdentify="img";
+					setNewComix(newComixUrl, comixiIdentify);
+					nextPageUrl=firstPageUrl;
+				}
+				addEvent(window, 'scroll', scrollByElement);
+		}
+		xhr.open('GET', url, true);
+		xhr.send('');
+	}
+  
+	function setNewComix(newSrc, comixIdntf) {
+		if (comixIdntf==="img"){
+			var newComix = document.createElement('img');
+		} else {
+			var newComix = document.createElement('iframe');
+			newComix.style.width="640px";
+			newComix.style.height="390px";
+			newComix.type="text/html";
+				}
+			newComix.src=newSrc;
+			newComix.style.textAlign = "center";
+			comixContainer.appendChild(newComix);
+	}
+
+  function scrollByElement() {
+		var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+		var windowHeight = document.documentElement.clientHeight;
+		var comixArr = comixContainer.children;
+		var lastComix = comixArr[comixArr.length-1];
+		if (getCoords(lastComix).top < (scrollTop + windowHeight)){
+			getNewComix(nextPageUrl);
+			removeEvent(window, 'scroll', scrollByElement);
+		}
+    }
+  
+	getNewComix(nextPageUrl);
+}());
