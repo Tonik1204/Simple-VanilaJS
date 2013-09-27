@@ -1,0 +1,32 @@
+'use strict';
+
+$((function() {
+	// 1.1) Убираем рекламные блоки;
+	$('.banner_300x500').remove();
+	$('#htmlblock_placeholder').remove();
+
+	// 1.2) Убираем хабранавигатор;
+	$('.fast_navigator').remove();
+	
+	// 1.3) Разделяем блок 'прямой эфир' на 2 блока(посты и qa);
+	var liveBroadcastClone = $('.live_broadcast').clone(true, true); //клонируем, сохраняя все навешеные обработчики
+	liveBroadcastClone.children('.live_broadcast_activity').remove();
+	liveBroadcastClone.find('[data-type="live_broadcast_activity"]').remove();
+	liveBroadcastClone.find('[data-type="qa_activity"]')
+		.css({ 'border-bottom': 'medium none', 'color': '#000000' });
+	$('.qa_activity').eq(0).remove();
+	$('.live_broadcast [data-type="qa_activity"]').remove();
+	liveBroadcastClone.insertAfter('.live_broadcast');
+
+	// 1.4) Делаем все блоки правой колонки collapsible
+	$('.sidebar_right .block .title').each( function(index) {
+		$(this).next().hide();
+		$(this).css('cursor', 'pointer');
+	});
+	$('.dotted').unbind();
+	$('.sidebar_right .block .title').click( function(event) {
+		$(this).next().slideToggle('slow');
+		event.preventDefault();
+	});
+	
+})());
