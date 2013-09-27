@@ -1,6 +1,16 @@
-'use strict';
 
 $((function() {
+	'use strict';
+	
+//----------------------TOOLS-------------------
+	 function comentDecoder(text) {
+			if (!parseInt(text)){
+				text = 0;
+			}
+				return text;
+		}
+//----------------------MAIN PART-------------------
+	
 	// 1.1) Убираем рекламные блоки;
 	$('.banner_300x500').remove();
 	$('#htmlblock_placeholder').remove();
@@ -29,4 +39,35 @@ $((function() {
 		event.preventDefault();
 	});
 	
+	// 2.1) Убираем рейтинги, описание, флаги;
+	function hideAllTrash(node) {
+		$(node).find('.post .content').hide();
+		$(node).find('.post .published').hide();
+		$(node).find('.post .infopanel_wrapper').hide();
+		$(node).find('.post .flag').hide();
+	}
+	hideAllTrash('body');
+	
+	// 2.2) Добавим справа от поста количество комментариев к нему;
+	function addComments(node) {
+		var comentsCollection=$(node).find('span.all');
+		$(node).find('.posts_list .title').each(function(index){
+			$(this).append("/ " + comentDecoder(comentsCollection.eq(index).text()) + " comments");
+		})
+	}
+	addComments('body');
+	
+	// 2.3) Подтянем на страницу все посты в том-же формате с последующих страниц;
+	var lastPage = parseInt($('#nav-pages li:last-child').text());
+	var container = document.createElement('body');
+	var allPostContainer = $('.posts_list').eq(0);
+	for (var i = 2; i <= lastPage; i++){
+		jQuery.get(document.location.href + 'page' + i, function(responseData){
+			container.innerHTML = responseData.match(/<body>[\s\S]*<\/body>/gim)[0];
+			hideAllTrash(container);
+			addComments(container);
+			allPostContainer.append($(container).find('.shortcuts_items'))
+		});
+	}
+	$('div.page-nav').remove();
 })());
