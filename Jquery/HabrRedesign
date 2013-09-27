@@ -10,16 +10,16 @@ $((function() {
 		}
 //----------------------MAIN PART-------------------
 	
-	// 1.1) Убираем рекламные блоки;
+// 1.1) Убираем рекламные блоки;
 	
 	$('.banner_300x500').remove();
 	$('#htmlblock_placeholder').remove();
 
-	// 1.2) Убираем хабранавигатор;
+// 1.2) Убираем хабранавигатор;
 	
 	$('.fast_navigator').remove();
 	
-	// 1.3) Разделяем блок 'прямой эфир' на 2 блока(посты и qa);
+// 1.3) Разделяем блок 'прямой эфир' на 2 блока(посты и qa);
 	
 	var liveBroadcastClone = $('.live_broadcast').clone(true, true); //клонируем, сохраняя все навешеные обработчики
 	liveBroadcastClone.children('.live_broadcast_activity').remove();
@@ -30,7 +30,7 @@ $((function() {
 	$('.live_broadcast [data-type="qa_activity"]').remove();
 	liveBroadcastClone.insertAfter('.live_broadcast');
 
-	// 1.4) Делаем все блоки правой колонки collapsible
+// 1.4) Делаем все блоки правой колонки collapsible
 	
 	$('.sidebar_right .block .title').each( function(index) {
 		$(this).next().hide();
@@ -42,7 +42,7 @@ $((function() {
 		event.preventDefault();
 	});
 	
-	// 2.1) Убираем рейтинги, описание, флаги;
+// 2.1) Убираем рейтинги, описание, флаги;
 	
 	function hideAllTrash(node) {
 		$(node).find('.post .content').hide();
@@ -52,7 +52,7 @@ $((function() {
 	}
 	hideAllTrash('body');
 	
-	// 2.2) Добавим справа от поста количество комментариев к нему;
+// 2.2) Добавим справа от поста количество комментариев к нему;
 	
 	function addComments(node) {
 		var comentsCollection=$(node).find('span.all');
@@ -62,7 +62,7 @@ $((function() {
 	}
 	addComments('body');
 	
-	// 2.3) Подтянем на страницу все посты в том-же формате с последующих страниц;
+// 2.3) Подтянем на страницу все посты в том-же формате с последующих страниц;
 	
 	var lastPage = parseInt($('#nav-pages li:last-child').text());
 	var container = document.createElement('body');
