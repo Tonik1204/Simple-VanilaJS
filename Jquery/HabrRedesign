@@ -1,4 +1,4 @@
-$((function() {
+$(function() {
 	'use strict';
 	
 //----------------------TOOLS-------------------
@@ -31,13 +31,13 @@ $((function() {
 	liveBroadcastClone.insertAfter('.live_broadcast');
 
 // 1.4) Делаем все блоки правой колонки collapsible
-	
-	$('.sidebar_right .block .title').each( function(index) {
+	var allSlideBarTitles = $('.sidebar_right .block .title');
+	allSlideBarTitles.each( function(index) {
 		$(this).next().hide();
 		$(this).css('cursor', 'pointer');
 	});
 	$('.dotted').unbind();
-	$('.sidebar_right .block .title').click( function(event) {
+	allSlideBarTitles.click( function(event) {
 		$(this).next().slideToggle('slow');
 		event.preventDefault();
 	});
@@ -45,18 +45,20 @@ $((function() {
 // 2.1) Убираем рейтинги, описание, флаги;
 	
 	function hideAllTrash(node) {
-		$(node).find('.post .content').hide();
-		$(node).find('.post .published').hide();
-		$(node).find('.post .infopanel_wrapper').hide();
-		$(node).find('.post .flag').hide();
+		node = $(node);
+		node.find('.post .content').hide();
+		node.find('.post .published').hide();
+		node.find('.post .infopanel_wrapper').hide();
+		node.find('.post .flag').hide();
 	}
 	hideAllTrash('body');
 	
 // 2.2) Добавим справа от поста количество комментариев к нему;
 	
 	function addComments(node) {
-		var comentsCollection=$(node).find('span.all');
-		$(node).find('.posts_list .title').each(function(index){
+		node = $(node);
+		var comentsCollection = node.find('span.all');
+		node.find('.posts_list .title').each(function(index){
 			$(this).append("/ " + comentDecoder(comentsCollection.eq(index).text()) + " comments");
 		})
 	}
@@ -68,7 +70,7 @@ $((function() {
 	var container = document.createElement('body');
 	var allPostContainer = $('.posts_list').eq(0);
 	for (var i = 2; i <= lastPage; i++){
-		jQuery.get(document.location.href + 'page' + i, function(responseData){
+		$.get(document.location.href + 'page' + i, function(responseData){
 			container.innerHTML = responseData.match(/<body>[\s\S]*<\/body>/gim)[0];
 			hideAllTrash(container);
 			addComments(container);
@@ -76,4 +78,4 @@ $((function() {
 		});
 	}
 	$('div.page-nav').remove();
-})());
+});
