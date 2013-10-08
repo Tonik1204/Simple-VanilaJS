@@ -1,35 +1,35 @@
 /* Детали реализации:
 1) Учтены возможные варианты действий пользователя: наводить на одну ссылку много раз, а потом кликнуть.
 2) Учтено переполнение куки в 4кб, добавляется новая.
-3) Сделал таймаут на ссылки, чтобы не включать случайно проскроленные
-4) Проверял в браузерах: хром, опера, мозила
-5) Тестировал на сайтах: www.google.com, javascript.ru, football.com.ua
-    Недостатки
+3) Проверял в браузерах: хром, опера, мозила
+4) Тестировал на сайтах: www.google.com, javascript.ru, football.com.ua
+	Недостатки
 1) Не работает в ie
 2) Из-за возможного переполнения пришлось вводить много дополнительных переменных, и часто использовать проверки if
-3) При переполнении и старте новой куки, клик на ссылку, которая была отмечена в старой куке, как просто наведенная, уже не повлечет её изменений
+3) При переполнении и старте новой куки, клик на ссылку, которая была отмечена в старой куке уже не повлечет её изменений
 */
+
 (function(){
 'use strict'
 //------------------------TOOLS------------------------------
-  
-    function addEvent(obj, event_name, handler) {
+
+	function addEvent(obj, event_name, handler) {
         if (obj.addEventListener) {
             obj.addEventListener(event_name, handler, false);
         } else if (obj.attachEvent) {
             obj.attachEvent('on' + event_name, handler);
         }
-    }   
-  
-    function closest(node, callback) {
+    }	   
+	
+	function closest(node, callback) {
         var perent = node;
         while (perent && !callback(perent)) {
             perent = perent.parentNode;
         }
         return perent;
     }
-         
-    function clearFromArr(arr1, arr2) {
+	   
+	function clearFromArr(arr1, arr2) {
         var newArr1 = [].concat(arr1);
         var newArr2 = [].concat(arr2);
         for (var i = 0; i < newArr2.length; ) { 
@@ -38,13 +38,13 @@
                 newArr2.splice(i, 1);
             }
             else {
-                i++;
+				i++;
             }
         }
         return newArr1;
-    }   
-      
-    function dublicatKiller(arr) {
+    }	
+	
+	function dublicatKiller(arr) {
             var newArr =[].concat(arr); // копирование массива
             for (var i = 0; i < newArr.length; i++) {
                 while (newArr.indexOf(newArr[i], i + 1) !== -1) {
@@ -53,79 +53,88 @@
             }
             return newArr;
     }
-      
+	
 //------------------------MAIN PART------------------------------
-  
-    var TIME_TO_SET_COOKIE = 750; // время удерживания мыши на ссылке, по истечению которого, установиться кука
-    var expiresDate = new Date(new Date().getTime() + 1000*60*60*24*7); // поставим куки на 7 дней
-    var hoverTime, cookieValue, cookieValueArr;
-    var hoveredLinksArr = [];  
-    var clickedLinksArr = [];
-    var currentURLArr = [];
-    var cookieNewNameMaker = 1;
-    var cookieName = "Links" + cookieNewNameMaker;
-    var cookieNewArrFromIndex = 0;
-    var MAX_COOKIE_BYTE_SIZE = 4096;
-      
-    function isCookieNormalSize(cookieName, cookieVal) {
-        var str = cookieName + cookieVal;
-        var count = unescape(encodeURIComponent(str)).length;
-        if (count < MAX_COOKIE_BYTE_SIZE){
-            return true;
-        } else return false;
-    }
-      
-    function setLinkCookie(event) {     
-        event = event || window.event
-        var target = event.target || event.srcElement;
-        if (target.nodeName !== "A") {
-            target = closest(target, function(node) {
-                return node.nodeName === 'A';
-            });         
-        }
-        if (target){        
-            if (event.type === 'mouseover' && target){
-                hoveredLinksArr.push(target.href);
-                hoveredLinksArr = dublicatKiller(hoveredLinksArr); // убираем повторяющиеся ссылки 
-                currentURLArr.push(window.location.href);
-                currentURLArr = dublicatKiller(currentURLArr); // убираем повторяющиеся урлы страниц
-            } else {
-                clickedLinksArr.push(target.href);
-            }
-             cookieValueArr = clearFromArr(hoveredLinksArr, clickedLinksArr); // отчищаем массив наведеных ссылок, от кликнутых
-             cookieValueArr = cookieValueArr.slice(cookieNewArrFromIndex);
-               
-            if (!cookieValueArr.length) {   // удаляем куку, если все наведенные ссылки, были кликнуты
-                document.cookie = cookieName + "=; expires=" + new Date(0) + "; path=/; domain=" + window.location.host; 
-                } else {
-                cookieValue = JSON.stringify({
-                    pageURLs: currentURLArr.join(','),
-                    linksHREFs: cookieValueArr.join(',')
-                });
-                if (isCookieNormalSize(cookieName, cookieValue)) {
-                    document.cookie = cookieName + "=" + cookieValue + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
-                } else {
-                    cookieNewNameMaker ++;
-                    cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
-                    cookieNewArrFromIndex += cookieValueArr.length;
-                    document.cookie = cookieName + "=" + cookieValueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
-                }
-            }
-        }
-          
-    }   
-      
-    function setHoverTime(event) {
-       hoverTime = setTimeout( function() {
-            setLinkCookie(event);
-       }, TIME_TO_SET_COOKIE);
-    }
-      
-    function clearHoverTime(){
-        clearTimeout(hoverTime);
-    }
-  
-    addEvent(document.body, 'mouseover', setHoverTime);
-    addEvent(document.body, 'mouseout', clearHoverTime);
-    addEvent(document.body, 'mousedown', setLinkCookie);
-}()); 
+
+	var TIME_TO_SET_COOKIE = 750; // время удерживания мыши на ссылке, по истечению которого, установиться кука
+	var expiresDate = new Date(new Date().getTime() + 1000*60*60*24*7); // поставим куки на 7 дней
+	var hoverTime, cookieValue, cookieValueArr;
+	var hoveredLinksArr = [];  
+	var clickedLinksArr = [];
+	var currentURLArr = [];
+	var cookieNewNameMaker = 1;
+	var cookieName = "Links" + cookieNewNameMaker;
+	var cookieNewArrFromIndex = 0;
+	var MAX_COOKIE_BYTE_SIZE = 4096;
+	
+	function isCookieNormalSize(cookieName, cookieVal) {
+		var str = cookieName + cookieVal;
+		var count = unescape(encodeURIComponent(str)).length;
+		if (count < MAX_COOKIE_BYTE_SIZE){
+			return true;
+		} else return false;
+	}
+	
+	function getResultOfUserAction(event) {
+			var result;
+				if (event.type === 'mouseover' && target) {
+					hoveredLinksArr.push(target.href);
+					hoveredLinksArr = dublicatKiller(hoveredLinksArr); // убираем повторяющиеся ссылки 
+					currentURLArr.push(window.location.href);
+					currentURLArr = dublicatKiller(currentURLArr); // убираем повторяющиеся урлы страниц
+				} else {
+					clickedLinksArr.push(target.href);
+				}
+				 result = clearFromArr(hoveredLinksArr, clickedLinksArr); // отчищаем массив наведеных ссылок, от кликнутых
+				  			 
+			 return result.slice(cookieNewArrFromIndex);
+	}
+		
+	function cookieCreater(value, valueArr) {
+			if (isCookieNormalSize(cookieName, value)) {
+				document.cookie = cookieName + "=" + value + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+			} else {
+				cookieNewNameMaker ++;
+				cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
+				cookieNewArrFromIndex += valueArr.length;
+				document.cookie = cookieName + "=" + valueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+					}
+	}
+	
+	function setLinkCookie(event) { 	
+		event = event || window.event
+		var target = event.target || event.srcElement;
+		if (target.nodeName !== "A") {
+			target = closest(target, function(node) {
+				return node.nodeName === 'A';
+			});			
+		}
+		if (target){		
+			 cookieValueArr = getResultOfUserAction(event);
+			 
+			if (!cookieValueArr.length) {   // удаляем куку, если все наведенные ссылки, были кликнуты
+				document.cookie = cookieName + "=; expires=" + new Date(0) + "; path=/; domain=" + window.location.host; 
+			} else {
+				cookieValue = JSON.stringify({
+						pageURLs: currentURLArr.join(','),
+						linksHREFs: cookieValueArr.join(',')
+					});
+				cookieCreater(cookieValue, cookieValueArr);
+				}
+		}
+	}	
+	
+	function setHoverTime(event) {
+	   hoverTime = setTimeout( function() {
+			setLinkCookie(event);
+	   }, TIME_TO_SET_COOKIE);
+	}
+	
+	function clearHoverTime(){
+		clearTimeout(hoverTime);
+	}
+
+	addEvent(document.body, 'mouseover', setHoverTime);
+	addEvent(document.body, 'mouseout', clearHoverTime);
+	addEvent(document.body, 'mousedown', setLinkCookie);
+}());
