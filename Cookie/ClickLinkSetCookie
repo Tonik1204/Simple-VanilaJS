@@ -76,29 +76,29 @@
 	}
 	
 	function getResultOfUserAction(event) {
-			var result;
-				if (event.type === 'mouseover' && target) {
-					hoveredLinksArr.push(target.href);
-					hoveredLinksArr = dublicatKiller(hoveredLinksArr); // убираем повторяющиеся ссылки 
-					currentURLArr.push(window.location.href);
-					currentURLArr = dublicatKiller(currentURLArr); // убираем повторяющиеся урлы страниц
-				} else {
-					clickedLinksArr.push(target.href);
-				}
-				 result = clearFromArr(hoveredLinksArr, clickedLinksArr); // отчищаем массив наведеных ссылок, от кликнутых
-				  			 
-			 return result.slice(cookieNewArrFromIndex);
+		var result;
+			if (event.type === 'mouseover' && target) {
+				hoveredLinksArr.push(target.href);
+				hoveredLinksArr = dublicatKiller(hoveredLinksArr); // убираем повторяющиеся ссылки 
+				currentURLArr.push(window.location.href);
+				currentURLArr = dublicatKiller(currentURLArr); // убираем повторяющиеся урлы страниц
+			} else {
+				clickedLinksArr.push(target.href);
+			}
+			 result = clearFromArr(hoveredLinksArr, clickedLinksArr); // отчищаем массив наведеных ссылок, от кликнутых
+			  			 
+		 return result.slice(cookieNewArrFromIndex);
 	}
 		
 	function cookieCreater(value, valueArr) {
-			if (isCookieNormalSize(cookieName, value)) {
-				document.cookie = cookieName + "=" + value + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
-			} else {
-				cookieNewNameMaker ++;
-				cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
-				cookieNewArrFromIndex += valueArr.length;
-				document.cookie = cookieName + "=" + valueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
-					}
+		if (isCookieNormalSize(cookieName, value)) {
+			document.cookie = cookieName + "=" + value + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+		} else {
+			cookieNewNameMaker ++;
+			cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
+			cookieNewArrFromIndex += valueArr.length;
+			document.cookie = cookieName + "=" + valueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+				}
 	}
 	
 	function setLinkCookie(event) { 	
