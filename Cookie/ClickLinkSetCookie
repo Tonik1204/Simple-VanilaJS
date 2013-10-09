@@ -8,7 +8,6 @@
 2) Из-за возможного переполнения пришлось вводить много дополнительных переменных, и часто использовать проверки if
 3) При переполнении и старте новой куки, клик на ссылку, которая была отмечена в старой куке уже не повлечет её изменений
 */
-
 (function(){
 'use strict'
 //------------------------TOOLS------------------------------
@@ -19,8 +18,8 @@
         } else if (obj.attachEvent) {
             obj.attachEvent('on' + event_name, handler);
         }
-    }	   
-	
+    }	
+
 	function closest(node, callback) {
         var perent = node;
         while (perent && !callback(perent)) {
@@ -75,7 +74,7 @@
 		} else return false;
 	}
 	
-	function getResultOfUserAction(event) {
+	function getResultOfUserAction(event, target) {
 		var result;
 			if (event.type === 'mouseover' && target) {
 				hoveredLinksArr.push(target.href);
@@ -84,34 +83,31 @@
 				currentURLArr = dublicatKiller(currentURLArr); // убираем повторяющиеся урлы страниц
 			} else {
 				clickedLinksArr.push(target.href);
-			}
+				}
 			 result = clearFromArr(hoveredLinksArr, clickedLinksArr); // отчищаем массив наведеных ссылок, от кликнутых
-			  			 
+				  			 
 		 return result.slice(cookieNewArrFromIndex);
 	}
 		
 	function cookieCreater(value, valueArr) {
-		if (isCookieNormalSize(cookieName, value)) {
-			document.cookie = cookieName + "=" + value + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
-		} else {
-			cookieNewNameMaker ++;
-			cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
-			cookieNewArrFromIndex += valueArr.length;
-			document.cookie = cookieName + "=" + valueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+			if (isCookieNormalSize(cookieName, value)) {
+				document.cookie = cookieName + "=" + value + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
+			} else {
+				cookieNewNameMaker ++;
+				cookieName = cookieName.slice(0, -1) + cookieNewNameMaker;
+				cookieNewArrFromIndex += valueArr.length;
+				document.cookie = cookieName + "=" + valueArr[cookieNewArrFromIndex - 1] + "; expires=" + expiresDate + "; path=/; domain=" + window.location.host;
 				}
 	}
 	
 	function setLinkCookie(event) { 	
 		event = event || window.event
 		var target = event.target || event.srcElement;
-		if (target.nodeName !== "A") {
-			target = closest(target, function(node) {
-				return node.nodeName === 'A';
-			});			
-		}
+		target = closest(target, function (node) {
+			return node.nodeName === 'A';
+		});
 		if (target){		
-			 cookieValueArr = getResultOfUserAction(event);
-			 
+			 cookieValueArr = getResultOfUserAction(event, target);
 			if (!cookieValueArr.length) {   // удаляем куку, если все наведенные ссылки, были кликнуты
 				document.cookie = cookieName + "=; expires=" + new Date(0) + "; path=/; domain=" + window.location.host; 
 			} else {
