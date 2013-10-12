@@ -96,7 +96,6 @@ $(function() {
 	habrMenuContent.prepend(iframeLoadingInfo); // показываем инфу загрузки фрейма
 	
 	createdIframes.load(function() {
-		iframeLoadingInfo.hide();
 		iframeContentReDesign($(this), habrMenuContent); // настраиваем вид iframe и его содержимого, под размеры контента меню
 		var lastHref = getLastHrefFromCookie(habrTabs);
 		if (this.src === lastHref) {
@@ -105,6 +104,7 @@ $(function() {
 		else {
 			$(this).hide();
 		}
+		iframeLoadingInfo.hide();
 		habrTabs.each(function() {
 			$(this).removeClass('active');
 			if (this.href === lastHref) {
