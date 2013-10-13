@@ -54,14 +54,15 @@ $(function() {
     function iframeContentAction(menuIframes) {
         menuIframes.each(function() {
             var currIframe = $(this);
-            currIframe.contents().find('body').on('click', function(event) {
+            currIframe.contents().find('body')
+            .on('click', function(event) {
                 event = event || window.event;
                 var target = event.target || event.srcElement;
                 if ($(target).closest('a').length !== 0 || target === 'button') {
                     setTimeout(function(){
                         currIframe.hide();
                         iframeLoadingInfo.show();
-                    },1);
+                    }, 1);
                 }
             });
         });
@@ -112,7 +113,7 @@ $(function() {
     createdIframes.load(function() {
         iframeContentAction(createdIframes); // настраиваем поведение iframe во время работы с пользователем (клики по ссылкам, кнопкам)
         iframeContentReDesign($(this), habrMenuContent); // настраиваем вид iframe и его содержимого, под размеры контента меню
-        var lastHref = getLastHrefFromCookie(habrTabs);
+        var lastHref = getLastHrefFromCookie(habrTabs); // с помощью куки получаем последний активный таб
         if (this.src === lastHref) {
             $(this).show();
         }
