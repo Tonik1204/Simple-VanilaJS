@@ -111,7 +111,7 @@ $(function() {
     newMenuIfrBehaviour(habrTabs, createdIframes); // подстраиваем поведение меню с табами под созданные iframe
     habrMenuContent.prepend(iframeLoadingInfo); // показываем инфу загрузки фрейма
     createdIframes.load(function() {
-        iframeContentAction(createdIframes); // настраиваем поведение iframe во время работы с пользователем (клики по ссылкам, кнопкам)
+        iframeContentAction(createdIframes); // настраиваем поведение загрузки iframe во время работы внутри iframe контента
         iframeContentReDesign($(this), habrMenuContent); // настраиваем вид iframe и его содержимого, под размеры контента меню
         var lastHref = getLastHrefFromCookie(habrTabs); // с помощью куки получаем последний активный таб
         if (this.src === lastHref) {
