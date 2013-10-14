@@ -1,6 +1,6 @@
 /* Детали реализации:
 Работает в браузерах: хром, мозила;
-При загрузке и обновлении iframe, появляется информирующая строка, для пользователя (почему сразу не отображется контент) 
+При загрузке и обновлении iframe, появляется информирующая строка, для пользователя (почему сразу не отображется контент)
 Запоминал активный таб, до перезагрузки всей страницы, в куку (период хранения: сессия)
 Работает только на главной странице: http://habrahabr.ru/
 */
@@ -11,7 +11,7 @@ $(function() {
     var iframeLoadingInfo = $('<span> Please, wait! Iframe is loading.. </span>');
       
     function iframeMenuCreator(menuTabs, menuContent) {
-        menuTabs.each(function() { 
+        menuTabs.each(function() {
             var ifr = $(document.createElement('iframe'));
             ifr.attr('src', this.href);
             ifr.addClass('_menuIframes');
@@ -51,23 +51,6 @@ $(function() {
         });
     }
       
-    function iframeContentAction(menuIframes) {
-        menuIframes.each(function() {
-            var currIframe = $(this);
-            currIframe.contents().find('body')
-            .on('click', function(event) {
-                event = event || window.event;
-                var target = event.target || event.srcElement;
-                if ($(target).closest('a').length !== 0 || target === 'button') {
-                    setTimeout(function(){
-                        currIframe.hide();
-                        iframeLoadingInfo.show();
-                    }, 1);
-                }
-            });
-        });
-    }
-      
     function iframeContentReDesign(currIframe, menuContent) {
         var newIfrHeight;
         var newIfrWidth = menuContent.width();
@@ -78,7 +61,7 @@ $(function() {
             currIframe.show();
             newIfrHeight = currIframeContent.height();
             currIframe.hide();
-        } else newIfrHeight = currIframeContent.height(); 
+        } else newIfrHeight = currIframeContent.height();
           
         currIframe.height(newIfrHeight + 'px');
         currIframe.width(newIfrWidth + 'px');
@@ -102,23 +85,29 @@ $(function() {
             });
         }
         return resultHref;
-    } 
+    }
       
-    habrMenuContent.empty(); // отчищаем контент меню 
+    habrMenuContent.empty(); // отчищаем контент меню
     iframeMenuCreator(habrTabs, habrMenuContent); // заполняем контент iframe-елементами, с src из табов
       
     var createdIframes = $('._menuIframes');
     newMenuIfrBehaviour(habrTabs, createdIframes); // подстраиваем поведение меню с табами под созданные iframe
-    habrMenuContent.prepend(iframeLoadingInfo); // показываем инфу загрузки фрейма
+    habrMenuContent.prepend(iframeLoadingInfo); // показываем инфу загрузки фрейма    
+         
     createdIframes.load(function() {
-        iframeContentAction(createdIframes); // настраиваем поведение загрузки iframe во время работы внутри iframe контента
-        iframeContentReDesign($(this), habrMenuContent); // настраиваем вид iframe и его содержимого, под размеры контента меню
+        var currIframe = $(this);
+        // настраиваем поведение загрузки iframe во время работы внутри iframe контента
+        $(currIframe.prop('contentWindow')).unload(function() {
+                currIframe.hide();
+                iframeLoadingInfo.show();
+            });
+        iframeContentReDesign(currIframe, habrMenuContent); // настраиваем вид iframe и его содержимого, под размеры контента меню
         var lastHref = getLastHrefFromCookie(habrTabs); // с помощью куки получаем последний активный таб
         if (this.src === lastHref) {
-            $(this).show();
+            currIframe.show();
         }
         else {
-            $(this).hide();
+            currIframe.hide();
         }
         iframeLoadingInfo.hide();
         habrTabs.each(function() {
@@ -127,5 +116,5 @@ $(function() {
                 $(this).addClass('active');
             }
         });
-    }); 
+    });
 });
