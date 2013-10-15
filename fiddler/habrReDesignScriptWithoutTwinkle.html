@@ -1,0 +1,2973 @@
+<!-- Мой скрипт находиться в <head>, первый из <script>.-->
+<!-- В фидлере, во вкладке 'AvtoResponser', добавить новое правило- regex:(?insx)^http://habrahabr\.ru/$ и сохранить этот файл к себе на комп.-->
+<!-- заменой ответа сервера, поподающего под вышеописаную регулярку, будет локальный путь к этому файлу.-->
+<!DOCTYPE html>
+   
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+    <meta name = "viewport" content = "width = 1080">
+    
+    <title>Лучшие за сутки / Посты / Хабрахабр</title>
+    <meta name="description" content="Хабрахабр – самое крупное в Рунете сообщество людей, занятых в индустрии высоких технологий. Уникальная аудитория, свежая информация, конструктивное общение и коллективное творчество – всё это делает Хабрахабр самым оригинальным IT-проектом в России." />    
+    
+    	<meta property="og:image" content="http://habrahabr.ru/i/habralogo.jpg" />
+<link rel="image_src" href="http://habrahabr.ru/i/habralogo.jpg" />
+
+      <link href="/styles/1381840903/all.css" rel="stylesheet" media="all" />
+
+    	<link href="/styles/1381840903/_parts/posts.css" rel="stylesheet" media="all" />
+	<link href="/styles/1381840903/forms.css" rel="stylesheet" media="all" />
+	<link href="/styles/1381840903/hubs/all.css" rel="stylesheet" media="all" />
+  
+    <link href="/styles/1381840903/printer.css" rel="stylesheet" media="print" />
+
+    <link rel="next" href="/page2/"/>
+    
+	<script type="text/javascript"> 
+	
+	//---------------------------------------------------------My REDESIGN SCRIPT------------------------------------------------------------------------------------
+		
+		document.write('<style type="text/css"> body { display: none; } </style>'); // создаем стили и пока body ещё не появилось скрываем его
+		
+		(function habrReDesign() {
+			'use strict';
+			
+		// Если	jQuery уже загрузился
+			if (window.jQuery) {
+				
+				$(document).ready(function() {
+				//----------------------TOOLS-------------------
+					 function comentDecoder(text) {
+							if (!parseInt(text)){
+								text = 0;
+							}
+								return text;
+						}
+				//----------------------MAIN PART-------------------
+					
+					// 1.1) Убираем рекламные блоки;
+					$('.banner_300x500').remove();
+					$('#htmlblock_placeholder').remove();
+
+					// 1.2) Убираем хабранавигатор;
+					$('.fast_navigator').remove();
+					
+					// 1.3) Разделяем блок 'прямой эфир' на 2 блока(посты и qa);
+					var liveBroadcastClone = $('.live_broadcast').clone(true, true); //клонируем, сохраняя все навешеные обработчики
+					liveBroadcastClone.children('.live_broadcast_activity').remove();
+					liveBroadcastClone.find('[data-type="live_broadcast_activity"]').remove();
+					liveBroadcastClone.find('[data-type="qa_activity"]')
+						.css({ 'border-bottom': 'medium none', 'color': '#000000' });
+					$('.qa_activity').eq(0).remove();
+					$('.live_broadcast [data-type="qa_activity"]').remove();
+					liveBroadcastClone.insertAfter('.live_broadcast');
+
+					// 1.4) Делаем все блоки правой колонки collapsible
+					$('.sidebar_right .block .title').each( function(index) {
+						$(this).next().hide();
+						$(this).css('cursor', 'pointer');
+					});
+					$('.dotted').unbind();
+					$('.sidebar_right .block .title').click( function(event) {
+						$(this).next().slideToggle('slow');
+						event.preventDefault();
+					});
+					
+					// 2.1) Убираем рейтинги, описание, флаги;
+					function hideAllTrash(node) {
+						$(node).find('.post .content').hide();
+						$(node).find('.post .published').hide();
+						$(node).find('.post .infopanel_wrapper').hide();
+						$(node).find('.post .flag').hide();
+					}
+					hideAllTrash('body');
+					
+					// 2.2) Добавим справа от поста количество комментариев к нему;
+					function addComments(node) {
+						var comentsCollection=$(node).find('span.all');
+						$(node).find('.posts_list .title').each(function(index){
+							$(this).append("/ " + comentDecoder(comentsCollection.eq(index).text()) + " comments");
+						})
+					}
+					addComments('body');
+					
+					// 2.3) Подтянем на страницу все посты в том-же формате с последующих страниц;
+					var lastPage = parseInt($('#nav-pages li:last-child').text());
+					var container = document.createElement('body');
+					var allPostContainer = $('.posts_list').eq(0);
+					for (var i = 2; i <= lastPage; i++){
+						jQuery.get(document.location.href + 'page' + i, function(responseData){
+							container.innerHTML = responseData.match(/<body>[\s\S]*<\/body>/gim)[0];
+							hideAllTrash(container);
+							addComments(container);
+							allPostContainer.append($(container).find('.shortcuts_items'))
+						});
+					}
+					$('div.page-nav').remove();
+					document.body.style.display = 'block'; // показываем body с измененным содержимым
+				});
+			} else {				
+				 setTimeout(habrReDesign, 0); 
+				}
+
+		}());
+
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	</script>
+	
+	
+      <script type="text/javascript" src="/javascripts/1381840903/all.js"></script>
+    
+    	<script type="text/javascript" src="/javascripts/1381840903/_parts/posts.js"></script>
+	<script type="text/javascript" src="/javascripts/1381840903/libs/jquery.form.js"></script>
+	<script type="text/javascript" src="/javascripts/1381840903/libs/highlight.js"></script>
+	<script type="text/javascript" src="/javascripts/1381840903/hubs/all.js"></script>
+	<script type="text/javascript" src="/javascripts/1381840903/posts/all.js"></script>
+
+
+
+  	<script type='text/javascript'>
+	  var crtg_nid="2580";
+	  var crtg_cookiename="cto_rtt";
+	  var crtg_varname="crtg_content";
+	  function crtg_getCookie(c_name){
+		  var i,x,y,ARRCookies=document.cookie.split(";");
+		  for(i=0;i<ARRCookies.length;i++){
+			  x=ARRCookies[i].substr(0,ARRCookies[i].indexOf("="));
+			  y=ARRCookies[i].substr(ARRCookies[i].indexOf("=")+1);
+			  x=x.replace(/^\s+|\s+$/g,"");
+			  if(x==c_name){return unescape(y);}
+		   }
+		return'';
+	   }
+	var crtg_content = crtg_getCookie(crtg_cookiename);var crtg_rnd=Math.floor(Math.random()*99999999999);
+		var crtg_url=location.protocol+'//rtax.criteo.com/delivery/rta/rta.js?netId='+escape(crtg_nid);crtg_url+='&cookieName='+escape(crtg_cookiename);crtg_url+='&rnd='+crtg_rnd;crtg_url+='&varName=' + escape(crtg_varname);
+		var crtg_script=document.createElement('script');crtg_script.type='text/javascript';crtg_script.src=crtg_url;crtg_script.async=true;
+		if(document.getElementsByTagName("head").length>0)document.getElementsByTagName("head")[0].appendChild(crtg_script);
+		else
+		if(document.getElementsByTagName("body").length>0)document.getElementsByTagName("body")[0].appendChild(crtg_script);
+	</script>
+
+      <script type="text/javascript" src="/javascripts/1381840903/adriver.core.2.js"></script>
+
+    <link title="Хабрахабр / Лучшие за сутки / Посты" type="application/rss+xml" rel="alternate" href="http://habrahabr.ru/rss/best/"/>
+        
+      <script type="text/javascript">
+      var _gaq = window._gaq || [];
+      window.onerror = function(msg, url, line) {
+          //var preventErrorAlert = true;
+          //_gaq.push(['_trackEvent', 'JS Error', msg, navigator.userAgent + ' -> ' + url + " : " + line]);
+          //return preventErrorAlert;
+      };
+      
+      jQuery.error = function (message) {
+          _gaq.push(['_trackEvent', 'jQuery Error', message, navigator.userAgent]);
+      }
+      </script>
+       
+  </head>
+
+  <body>
+   <div class="wrapper">
+      
+      <div id="layout">
+        <div id="header">
+    <div class="userpanel silver">
+      <a href="https://auth.habrahabr.ru/login/" class="login">войти</a> <a href="https://auth.habrahabr.ru/register/">зарегистрироваться</a>
+  </div>
+  <a class="logo mainpage" href="http://habrahabr.ru/" title="На главную страницу"></a>
+  <div class="search">
+    <form id="search_form" name="search" method="get" action="//habrahabr.ru/search/" >
+      <input type="submit" value="" />
+      <input type="text" name="q" x-webkit-speech speech tabindex="1" >
+    </form>
+  </div>
+
+	<div class="main_menu">
+		<a href="http://habrahabr.ru/posts/top/" class="active">посты</a><a href="http://habrahabr.ru/qa/">q&amp;a</a><a href="http://habrahabr.ru/events/coming/">события</a><a href="http://habrahabr.ru/hubs/">хабы</a><a href="http://habrahabr.ru/companies/">компании</a>
+		<div class="banner_special">
+
+	
+		<!--  AdRiver code START. Type:135x35 Site: habrahabr PZ: 0 BN: 0 -->
+		<script language="javascript" type="text/javascript"><!--
+		var RndNum4NoCash = Math.round(Math.random() * 1000000000);
+		var ar_Tail='unknown'; if (document.referrer) ar_Tail = escape(document.referrer);
+		document.write(
+		'<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi?'
+		+ 'sid=176776&target=top&w=135&h=35&bt=25&pz=0&rnd=' + RndNum4NoCash + '&tail256=' + ar_Tail
+		+ '" frameborder=0 vspace=0 hspace=0 width=135 height=35 marginwidth=0'
+		+ ' marginheight=0 scrolling=no></iframe>');
+		//--></script>
+		<noscript>
+		<a href="http://ad.adriver.ru/cgi-bin/click.cgi?sid=176776&bt=25&pz=0&rnd=795668059" target=_top>
+		<img src="http://ad.adriver.ru/cgi-bin/rle.cgi?sid=176776&bt=25&pz=0&rnd=795668059" alt="-AdRiver-" border=0 width=135 height=35></a>
+		</noscript>
+
+		<!--  AdRiver code END  -->
+
+</div>
+		
+	</div>
+
+</div>
+
+
+
+        
+        
+	
+	<div class="content_left">
+	
+		
+
+
+
+
+<table class="menu">
+  <tr>
+      <td class="item all active">
+        	<a href="http://habrahabr.ru/posts/top/" ><span class="name">Лучшие</span></a>
+      </td>
+      <td class="item collective">
+        	<a href="http://habrahabr.ru/posts/collective/" ><span class="name">Тематические</span></a>
+      </td>
+      <td class="item corporative">
+        	<a href="http://habrahabr.ru/posts/corporative/" ><span class="name">Корпоративные</span></a>
+      </td>
+  </tr>
+</table>
+<div class="submenu ">
+      <div class="item  active">
+        <a href="http://habrahabr.ru/posts/top/daily/" ><span class="name">За сутки</span></a>
+      </div>
+      <div class="item ">
+        <a href="http://habrahabr.ru/posts/top/weekly/" ><span class="name">За неделю</span></a>
+      </div>
+      <div class="item ">
+        <a href="http://habrahabr.ru/posts/top/monthly/" ><span class="name">За месяц</span></a>
+      </div>
+      <div class="item ">
+        <a href="http://habrahabr.ru/posts/top/alltime/" ><span class="name">За всё время</span></a>
+      </div>
+</div>
+<div class="clear"></div>
+
+
+		
+		<div class="posts_list">
+
+			<div class="posts shortcuts_items">
+			
+					
+  <div class="post shortcuts_item" id="post_197514">
+  	<div class="published">вчера в 19:58</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197514/" class="post_title">Чиновники отклонили петицию об отмене «антипиратского» закона</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/Dura_Lex/" class="hub " title="Вы не подписаны на этот хаб" >Dura Lex</a>, 
+		<a href="http://habrahabr.ru/hub/copyright/" class="hub " title="Вы не подписаны на этот хаб" >Копирайт</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Экспертная рабочая группа правительства РФ рекомендовала отклонить общественную петицию с требованием об отмене «антипиратского закона». Такое решение было принято 14 октября в процессе заседания группы, возглавляемой министром по вопросам «Открытого правительства» Михаилом Абызовым.<br/>
+<br/>
+По словам участников встречи, «антипиратский» закон в его действующей редакции за первые месяцы работы доказал свою эффективность, получив положительные отзывы со стороны многих правообладателей. В связи с этим, эксперты сочли, что обсуждать его отмену нецелесообразно.<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197514/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197514">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">80106</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">43</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/Osaka/" >Osaka</a>
+					<span class="rating" title="рейтинг пользователя">191,8</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197514/#comments"><span class="all">356</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197380">
+  	<div class="published">сегодня в 06:22</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197380/" class="post_title">С камерой в облака. Часть 2</a>
+
+      <span class="flag flag_tutorial" title="Обучающий материал">tutorial</span>
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/DIY/" class="hub " title="Вы не подписаны на этот хаб" >DIY или Сделай Сам</a>, 
+		<a href="http://habrahabr.ru/hub/robot/" class="hub " title="Вы не подписаны на этот хаб" >Робототехника</a>, 
+		<a href="http://habrahabr.ru/hub/gadgets/" class="hub " title="Вы не подписаны на этот хаб" >Гаджеты. Устройства для гиков</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<img src="http://habrastorage.org/storage3/a11/58a/437/a1158a437eddb5a75886d43199bb5d60.png" alt="Тренировки"/><br/>
+<br/>
+Всем привет, это — продолжение моего поста про полеты по камере или FPV.<br/>
+<br/>
+Спасибо каждому, кто читал и комментировал <a href="http://habrahabr.ru/post/196884/">первую часть</a>. Благодаря вам, продолжение будет еще интереснее. Если еще не читали — рекомендую это сделать. Там мало текста, и есть классные видео.<br/>
+<br/>
+Изначально планировалось, что эта часть будет завершающей. Но, для удобства попадания в скролл, сейчас остановимся лишь на этих вопросах:<br/>
+<br/>
+<ul>
+<li>Тренировки. Вырабатывание летных навыков.</li>
+<li>Выбор модели: самолет, вертолет или мультикоптер?</li>
+<li>Выбор конкретной конструкции и размера</li>
+<li>Моторы и ESC</li>
+<li>Полетный контроллер</li>
+</ul><br/>
+<br/>
+Как обычно, сразу к делу.<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197380/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197380">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">18246</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">392</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/PaulMan/" >PaulMan</a>
+					<span class="rating" title="рейтинг пользователя">181,5</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197380/#comments"><span class="all">84</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197584">
+  	<div class="published">сегодня в 12:35</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197584/" class="post_title">Яндекс купил Кинопоиск</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/social_networks/" class="hub " title="Вы не подписаны на этот хаб" >Социальные сети и сообщества</a>, 
+		<a href="http://habrahabr.ru/hub/yandex/" class="hub " title="Вы не подписаны на этот хаб" >Яндекс</a>, 
+		<a href="http://habrahabr.ru/hub/mass_media/" class="hub " title="Вы не подписаны на этот хаб" >Медиа</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<img src="http://habrastorage.org/storage3/8a5/97a/150/8a597a1509e4bbfb10409e4b6bb258ab.jpg"/><br/>
+<br/>
+Итак, свершилось то, что последние несколько недель обсуждалось в сети. Яндекс все-таки купил портал посвященный кинематографу — КиноПоиск. На нем собрана огромная база фильмов, актеров, оценок, рецензий и отзывов, и это по словам представителей Яндекса поможет развивать рекомендательные сервисы, учитывающие персональные интересы пользователей. Кроме того, новый контент будет применяться в поиске Яндекса для ответов на вопросы о кино. 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197584/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197584">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">31033</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">18</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/sharamyshara/" >sharamyshara</a>
+					<span class="rating" title="рейтинг пользователя">56,5</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197584/#comments"><span class="all">81</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197508">
+  	<div class="published">вчера в 19:04</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197508/" class="post_title">Сайт РОИ не смог выдержать эффект Навального</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/e_gov/" class="hub " title="Вы не подписаны на этот хаб" >Электронное правительство</a>, 
+		<a href="http://habrahabr.ru/hub/social_networks/" class="hub " title="Вы не подписаны на этот хаб" >Социальные сети и сообщества</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<div style="text-align:center;"><img src="http://habrastorage.org/storage3/05f/bce/fb9/05fbcefb948729288129be33a8f4d663.jpg" /></div><br/>
+Сайт Российская общественная инициатива опять подвергся жестокой проверке на высокие нагрузки. После публикации в ЖЖ Навального поста о своей второй инициативе, новость о которой также появилась в СМИ (в частности на Lenta.ru), сайт РОИ смог продержаться около часа. После чего стал выдавать ошибки 500, ошибку о том что не удается найти конфиг файл и подключиться к БД. В итоге в авральном режиме добавили надпись, о том что голоса будут обновляться с большой задержкой, причем сначала просто было черным текстом написано, потом облагородили CSS.<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197508/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197508">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">55993</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">31</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/zapimir/" >zapimir</a>
+					<span class="rating" title="рейтинг пользователя">114,6</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197508/#comments"><span class="all">221</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197634">
+  	<div class="published">сегодня в 16:15</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/company/tm/blog/197634/" class="post_title">«Хабрахабр» запускает программу поддержки стартапов</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/company/tm/" class="hub " title="Вы не подписаны на этот хаб" >Блог компании Тематические Медиа</a>, 
+		<a href="http://habrahabr.ru/hub/announcements/" class="hub " title="Вы не подписаны на этот хаб" >Хабрахабр — Анонсы</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Привет!<br/>
+<br/>
+«Хабрахабр» не понаслышке знает, с какими трудностями приходится сталкиваться стартапам в самом начале их пути. Сложно посчитать количество интересных проектов, которые не «выстрелили», не справившись с проблемами: не смогли заявить о себе широкой общественности, не встретили инвестора, не обрели аудиторию и достаточного фидбека, не нашли программиста, дизайнера или менеджера проекта. <br/>
+<br/>
+<div style="text-align:center;"><img src="http://habrastorage.org/storage3/6b8/0a0/2b4/6b80a02b4bd92bef2a4d9b82a5a746cd.png" /></div><br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/company/tm/blog/197634/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197634">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">10906</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">85</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/deniskin/" >deniskin</a>
+					<span class="rating" title="рейтинг пользователя">217,7</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/company/tm/blog/197634/#comments"><span class="all">81</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197522">
+  	<div class="published">вчера в 22:35</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197522/" class="post_title">Как мы делали Wiren Board</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/DIY/" class="hub " title="Вы не подписаны на этот хаб" >DIY или Сделай Сам</a>, 
+		<a href="http://habrahabr.ru/hub/development/" class="hub " title="Вы не подписаны на этот хаб" >Разработка</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/hardware/" class="hub " title="Вы не подписаны на этот хаб" >Железо</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Последние 9 месяцев мы разрабатывали Wiren Board — компактный индустриальный компьютер с множеством встроенных интерфейсов (Wi-Fi, GPRS, GPS, NFC, Ethernet и т.д.) Мы уже <a href="http://habrahabr.ru/post/176357/">писали</a> о нём, и получили кучу отзывов и пожеланий. В итоге в новую версию было внесено много изменений, и эта статья про самые значительные из них. <br/>
+<br/>
+По сравнению с апрельским прототипом на плате появились 2 USB-host, интерфейс RS-485 и разъём с 8 GPIO. Кроме этого мы сделали новую схему питания, поддерживающую входные напряжения от 5 до 22 вольт, Passive PoE и подключение Li-Pol аккумулятора, добавили управление низковольтной нагрузкой и аналоговые входы на клеммниках.<br/>
+<br/>
+<img src="http://habrastorage.org/storage3/4e2/3d5/489/4e23d5489b1703aacae0744fddc96bae.jpg"/><br/>
+<br/>
+Как мы это делали, с какими трудностями столкнулись и что получилось в итоге — читайте в нашей статье.<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197522/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197522">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">22319</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">168</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/evgeny_boger/" >evgeny_boger</a>
+					<span class="rating" title="рейтинг пользователя">99,6</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197522/#comments"><span class="all">77</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197450">
+  	<div class="published">вчера в 20:01</div>  
+    <h1 class="title">
+    
+      
+      
+
+      
+      	<a href="http://habrahabr.ru/post/197450/" class="post_title">Как я делал W-Mouse — игровую мышь с уникальными способностями</a>
+			
+  		<a href="/sandbox/" class="flag flag_sandbox" title="Перейти в песочницу">из песочницы</a>
+			
+			
+  		
+  		
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/DIY/" class="hub " title="Вы не подписаны на этот хаб" >DIY или Сделай Сам</a>
+</div>
+
+  	
+    <div class="content html_format">
+			<a href="http://bacek.ru/webimg/v.php?id=3d32fd61bb8c57482dbeb60b4c01fe37.jpg"><img src="http://habr.habrastorage.org/post_images/810/da1/998/810da19981c276fa04c3632235e947eb.jpg"/></a><br/>
+<br/>
+Как известно все фломастеры разные на вкус, и естественно такой специфичный дивайс как игровая мышь, не может удовлетворять абсолютно всем требованиям и желаниям конкретного человека. <br/>
+ Многие выбирая мышь и пытаясь подобрать для себя наилучший вариант, читают тесты и обзоры, общаются на форумах. Но зачастую купив мышь и с сожалением осознав, что не подходит, вынуждены идти в магазин менять или покупать другую. <br/>
+ Один гениальный человек, с ником Walkie, решил самостоятельно разработать и сделать себе мышь которая бы отвечала его желаниям и требованиям… И сделал. И назвал он её W-Mouse. <br/>
+Walkie сделал мышь не только себе, но научил делать w-mouse-ы, других хороших людей.<br/>
+
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197450/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			<div class="clear"></div>
+    </div>
+
+    
+		<div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197450">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">41917</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">139</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/iG0Lka/" >iG0Lka</a>
+					<span class="rating" title="рейтинг пользователя">43,1</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197450/#comments"><span class="all">32</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+		
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197438">
+  	<div class="published">вчера в 18:39</div>  
+    <h1 class="title">
+    
+      
+      
+
+      
+      	<a href="http://habrahabr.ru/post/197438/" class="post_title">Linux Kernel EFI Boot Stub или «Сам себе загрузчик»</a>
+			
+  		<a href="/sandbox/" class="flag flag_sandbox" title="Перейти в песочницу">из песочницы</a>
+			
+			
+  		
+  		
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/nix/" class="hub " title="Вы не подписаны на этот хаб" >*nix</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/os/" class="hub " title="Вы не подписаны на этот хаб" >Операционные системы</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/linux/" class="hub " title="Вы не подписаны на этот хаб" >Linux</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+    <div class="content html_format">
+			<img src="http://habrastorage.org/storage3/61e/197/90a/61e19790a2f3d217bd804c175a313706.png" alt="UEFI Tux Logo" align="left"/><h4>Введение</h4><br/>
+Прочитав недавнюю статью <a href="http://habrahabr.ru/post/196926/">Загрузка ОС Linux без загрузчика</a>, понял две вещи: многим интересна «новинка», датируемая аж 2011 годом; автор не описал самого основного, без чего, собственно, и работать ничего не будет в некоторых случаях. Также была <a href="http://habrahabr.ru/post/165575/">ещё</a> одна статья, но либо она уже устарела, либо там опять таки много лишнего и недосказанного одновременно.<br/>
+<br/>
+А конкретно, был упущен основной момент — сборочная опция ядра <abbr title="Processor Type and Features -&gt; EFI Runtime Service Support -&gt; EFI Stub Support">CONFIG_EFI_STUB</abbr>. Так как в последних версиях U(lu/ku/edu/*etc*)buntu эта опция по умолчанию уже включена, никаких подозрений у автора не появилось.<br/>
+Насколько мне известно, на текущий момент она включена в дистрибутивах указанных версий и выше: Arch Linux, Fedora 17, OpenSUSE 12.2 и Ubuntu 12.10. В комментах ещё упомянули, что Debian с ядром 2.6 умеет, но это не более, чем бэкпорт с последних версий. На этих дистрибутивах пересобирать вообще ничего не нужно! А ведь на других CONFIG_EFI_STUB, скорее всего, либо вообще отсутствует, т. к. опция доступна только с ядра версии 3.3.0 и выше, либо выключена по умолчанию. Соответственно, всё, описанное ниже, справедливо для ядра, собранного с опцией CONFIG_EFI_STUB.<br/>
+<br/>
+<h4>Итак, что же такое Linux Kernel EFI Boot Stub?</h4><br/>
+<h5>Общая информация</h5><br/>
+А ни что иное, как… «exe-файл»!
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197438/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			<div class="clear"></div>
+    </div>
+
+    
+		<div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197438">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">12088</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">226</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/TrueBers/" >TrueBers</a>
+					<span class="rating" title="рейтинг пользователя">56,1</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197438/#comments"><span class="all">15</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+		
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197416">
+  	<div class="published">вчера в 20:15</div>  
+    <h1 class="title">
+    
+      
+      
+
+      
+      	<a href="http://habrahabr.ru/post/197416/" class="post_title">Пишем HTML5-игру за 20 минут, или введение в Phaser framework</a>
+			
+  		<a href="/sandbox/" class="flag flag_sandbox" title="Перейти в песочницу">из песочницы</a>
+			
+			<span class="flag flag_tutorial" title="Обучающий материал">tutorial</span>
+  		
+  		
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/html5/" class="hub " title="Вы не подписаны на этот хаб" >HTML</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gdev/" class="hub " title="Вы не подписаны на этот хаб" >Game Development</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/javascript/" class="hub " title="Вы не подписаны на этот хаб" >JavaScript</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+    <div class="content html_format">
+			Эта статья посвящена разработке стильных, модных и молодежных HTML5 приложений с помощью нового фреймворка <a href="http://phaser.io">Phaser</a>. В ней описан процесс установки библиотеки и создание классической игры Pong.<br/>
+<br/>
+<h4>Введение</h4><br/>
+Phaser — это движок для разработки мобильных и десктопных HTML5 игр, базирующийся на библиотеке <a href="http://www.pixijs.com">PIXI.js</a>. Поддерживает рендеринг в Canvas и WebGL, анимированные спрайты, частицы, аудио, разные способы ввода и физику объектов. Исходники доступны как для просмотра, так и для свободной модификации. Он создан Ричардом Дейви (Richard Davey), известному благодаря активному участию в сообществе программистов, использующих <a href="http://flixel.org">Flixel framework</a>. Ричард не скрывает, что вдохновлялся Фликселем, поэтому некоторые вещи в Фазере будут знакомы опытным флешерам. Первая версия нового движка вышла 13 сентября этого года, сейчас ведется не только активное развитие библиотеки, но и написание документации, поэтому в данный момент уроков по ней, мягко говоря, немного. Что, по моему скромному мнению, следует исправлять, и прямо сейчас.<br/>
+
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197416/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			<div class="clear"></div>
+    </div>
+
+    
+		<div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197416">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">18857</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">411</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/yesyesyes/" >yesyesyes</a>
+					<span class="rating" title="рейтинг пользователя">39,8</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197416/#comments"><span class="all">17</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+		
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_196272">
+  	<div class="published">вчера в 20:13</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/196272/" class="post_title">Что такое скрипты и с чем их едят — Lua & C++</a>
+
+      <span class="flag flag_tutorial" title="Обучающий материал">tutorial</span>
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/Lua/" class="hub " title="Вы не подписаны на этот хаб" >Lua</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gdev/" class="hub " title="Вы не подписаны на этот хаб" >Game Development</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/cpp/" class="hub " title="Вы не подписаны на этот хаб" >C++</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Добрый день, Хабрахабр!<br/>
+Решил написать этот топик на тему скриптов<br/>
+<br/>
+<img src="http://habrastorage.org/storage3/1ba/886/29d/1ba88629d01727b7fce7ca5e363c2707.gif"/><h4>Что нужно знать?</h4><br/>
+<ul>
+<li>С++ на приличном уровне (в уроке будут шаблоны — template)</li>
+<li>Lua, очень легкий скриптовый язык. Советую <a href="http://tylerneylon.com/a/learn-lua/">этот</a> урок.</li>
+</ul><br/>
+<h4>Почему писать диалоги игры в .cpp файле было большой ошибкой</h4><br/>
+Если вы разрабатывали большие проекты (к примеру, масштабные игры), замечали, что с каждой новой сотней строк кода компиляция идет медленней?<br/>
+В игре создается больше оружия, больше диалогов, больше меню, больше etc.<br/>
+Одна из самых главных проблем, возникающих в связи с нововведениями — поддерживать бессчетное множество оружия и бейджиков довольно сложное занятие.<br/>
+В ситуации, когда просьба друга/босса/напарника изменить диалог или добавить новый вид оружия занимает слишком много времени, приходится прибегать к каким-то мерам — например, записи всей этой фигни в отдельные текстовые файлы.<br/>
+Почти каждый геймдевелопер когда-нибудь делал карту уровней или диалоги в отдельном текстовом файле и потом их считывал. Взять хотя бы простейший вариант — олимпиадные задачи по информатике с файлом ввода<br/>
+<br/>
+Но есть способ, на голову выше — использование скриптов.<br/>
+<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/196272/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_196272">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">10791</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">272</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/Izaron/" >Izaron</a>
+					<span class="rating" title="рейтинг пользователя">108,9</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/196272/#comments"><span class="all">24</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197624">
+  	<div class="published">сегодня в 16:55</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197624/" class="post_title">Деобфускация бэкдора без единого буквенно-цифрового символа</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/virus/" class="hub " title="Вы не подписаны на этот хаб" >Вирусы (и антивирусы)</a>, 
+		<a href="http://habrahabr.ru/hub/php/" class="hub " title="Вы не подписаны на этот хаб" >PHP</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/webdev/" class="hub " title="Вы не подписаны на этот хаб" >Веб-разработка</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Месяц назад я увидел интересный пост про <a href="http://habrahabr.ru/post/193986/">PHP-шелл без единого буквенно-цифрового символа</a> и сильно захотел понять, что же он делает. Кому интересно — под кат! 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197624/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197624">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">3484</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">21</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/propovednik/" >propovednik</a>
+					<span class="rating" title="рейтинг пользователя">55,6</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197624/#comments"><span class="all">3</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197564">
+  	<div class="published">сегодня в 11:19</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197564/" class="post_title">Отечественные проекты на Kickstarter /часть 2</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/crowdfunding/" class="hub " title="Вы не подписаны на этот хаб" >Краудфандинг</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gdev/" class="hub " title="Вы не подписаны на этот хаб" >Game Development</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gadgets/" class="hub " title="Вы не подписаны на этот хаб" >Гаджеты. Устройства для гиков</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	От России, Беларуси, Украины сейчас на Кикстартере запущено 6 игр, 1 гаджет и 1 кошелек.<br/>
+<br/>
+Я хочу немного рассказать о четырех новых проектах на Кикстартере из России, Белоруссии, Украины, еще об одном, к которому определенно русские имеют отношение. А также напомню вам те проекты, о которых я уже писал ранее <a href="http://habrahabr.ru/post/195204/">в этом хабрапосте</a> и которые увеличили свои сборы.<br/>
+<br/>
+<img src="http://habr.habrastorage.org/post_images/a11/e21/8cd/a11e218cdf7940e5ae9ea579f421a045.jpg"/> 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197564/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197564">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">11699</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">32</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/Ellanorsh/" >Ellanorsh</a>
+					<span class="rating" title="рейтинг пользователя">84,4</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197564/#comments"><span class="all">41</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197560">
+  	<div class="published">сегодня в 10:38</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197560/" class="post_title">30 лет первому коммерческому звонку по сотовому телефону</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/history/" class="hub " title="Вы не подписаны на этот хаб" >История ИТ</a>, 
+		<a href="http://habrahabr.ru/hub/telecom/" class="hub " title="Вы не подписаны на этот хаб" >Телекомы</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gadgets/" class="hub " title="Вы не подписаны на этот хаб" >Гаджеты. Устройства для гиков</a>
+</div>
+
+  	
+  	<div class="content html_format">
+  	30 лет назад, 13 октября 1983, впервые был совершён коммерческий звонок по сотовому телефону. Использовался аппарат Motorola DynaTAC — с него же за десять лет до этого сотрудник Motorola Мартин Купер позвонил в AT&amp;T, чтобы порадовать конкурентов своим успехом.<br/>
+<br/>
+Первый коммерческий звонок был совершен в Чикаго президентом компании Ameritech, впоследствии переименованной в Verizon, Бобом Барнеттом. Его адресатом был внук Александра Грэхема Белла. <br/>
+<br/>
+<h5>Motorola DynaTAC</h5> <br/>
+Вес: 1,15 кг<br/>
+Параметры: 22,5х12,5х3,75 см (без антенны)<br/>
+Дисплей: красный светодиодный<br/>
+Время разговора: 35 минут<br/>
+Время ожидания: 8 часов<br/>
+Цена: $3,995 в 1983 (в переводе на сегодня — около $9,398.11)<br/>
+<br/>
+<img src="http://habr.habrastorage.org/post_images/b50/9ec/e8f/b509ece8f63f596a7e7991eec3ad27bc.jpg" alt="image"/><br/>
+<i>Кадр из фильма «Уолл-Стрит», 1987 год</i><br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197560/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197560">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">9448</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">13</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/ivansychev/" >ivansychev</a>
+					<span class="rating" title="рейтинг пользователя">213,8</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197560/#comments"><span class="all">14</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197598">
+  	<div class="published">сегодня в 15:23</div>  
+    <h1 class="title">
+    
+      
+      
+
+      
+      	<a href="http://habrahabr.ru/post/197598/" class="post_title">Знакомство с Go — пишем граббер веб страниц с многопоточностью и блудницами</a>
+			
+  		<a href="/sandbox/" class="flag flag_sandbox" title="Перейти в песочницу">из песочницы</a>
+			
+			
+  		
+  		
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/go/" class="hub " title="Вы не подписаны на этот хаб" >Go</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+    <div class="content html_format">
+			Про язык Go от команды Google слышали, наверное, все. А вот пробовали далеко не все, и очень зря — общение с <s>сусликами</s> Go это море удовольствия, в чем я недавно убедился на собственном опыте.<br/>
+Начинать знакомство с новым языком забавнее всего на жизненном примере, поэтому я, не долго думая, взял первую попавшуюся задачу “из жизни, самой первостепенной важности”:<br/>
+<br/>
+Есть в интернете сайт <a href="http://vpustotu.ru">http://vpustotu.ru</a> на котором любой желающий может анонимно высказаться о наболевшем. Все высказывания (в дальнейшем буду называть их “цитатами”) сначала попадают в модерацию (аналог “бездны” башорга), где посетители могут оценить полет мысли и проголосовать за цитату в стиле “Ого!” или “Ерунда!”. На странице модерации (<a href="http://vpustotu.ru/moderation/">http://vpustotu.ru/moderation/</a>) нам показывают случайную цитату, ссылки голосования и ссылку “Еще”, которая ведет на эту же страницу. Пощелкайте, это все очень просто.<br/>
+<br/>
+<b>И вот возникла задача</b> – срочно, под покровом темноты, загрузить себе полный дамп всех цитат на модерации для дальнейшего секретного исследования. Не будем оценивать житейскую ценность и степень идиотизма задачи, а рассмотрим её с технической точки зрения:<br/>
+<br/>
+В разделе модерации нет прямых ссылок на определенную цитату, единственный способ получить новую цитату – обновить страницу (или перейти по ссылке “еще”, что одно и тоже). Причем вполне возможны повторы, что легко обнаруживается после пары минут агрессивного кликинга.<br/>
+<br/>
+Таким образом нужна программа, которая:<br/>
+<br/>
+<ul>
+<li>Должна последовательно обновлять и парсить (разбирать) страницу, записывая цитату.</li>
+<li>Должна уметь отбрасывать дубликаты.</li>
+</ul><br/>
+<br/>
+Логично, что мы понятия не имеем все ли цитаты загружены, но об этом можно косвенно догадаться по большому количеству повторно полученных цитат подряд. Поэтому дополним:<br/>
+<br/>
+<ul>
+<li>Должна останавливаться не только по команде, но и по достижению определенного числа “повторов”, например 500!</li>
+<li>Так как это, скорее всего, займет некоторое время: необходимо уметь продолжить “с места на котором остановились” после закрытия.</li>
+<li>Ну и раз уж все-таки это надолго – пусть делает свое грязное дело в несколько потоков. Хорошо-бы в целых 4 потока (или даже 5!).</li>
+<li>И отчитывается об успехах в консоль каждые, скажем, 10 секунд.</li>
+<li>А все эти параметры пускай принимает из аргументов командной строки!</li>
+</ul><br/>
+<br/>
+Ну, вроде все понятно. Пусть программа ведет два файла – с цитатами и с некими хешами этих цитат, чтобы не повторяться, и перечитывает файл в начале каждого запуска. Ну а дальше в цикле разбирает страницу, выдергивая все новые и новые откровения, пока не получит ctrl-c по лбу или же не встретит определенное количество повторов. Задача ясна, план есть – поехали!<br/>
+
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197598/#habracut">Читать дальше &rarr;</a>
+  		</div>
+			<div class="clear"></div>
+    </div>
+
+    
+		<div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197598">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">2184</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">71</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/Dreadd/" >Dreadd</a>
+					<span class="rating" title="рейтинг пользователя">24,4</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197598/#comments"><span class="all">3</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+		
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197570">
+  	<div class="published">сегодня в 11:51</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197570/" class="post_title">Балансировщик на Go в 200 строк</a>
+
+      <span class="flag flag_tutorial" title="Обучающий материал">tutorial</span>
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/go/" class="hub " title="Вы не подписаны на этот хаб" >Go</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/webdev/" class="hub " title="Вы не подписаны на этот хаб" >Веб-разработка</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/hi/" class="hub " title="Вы не подписаны на этот хаб" >Высокая производительность</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Я <a href="http://habrahabr.ru/post/197468/#comment_6849220">упомянул</a>, что разработал балансировщик на Go, хотя есть мнение, что фронтендом должен быть nginx. <br/>
+<br/>
+У меня есть такое чувство, что в комментах люди бывает фантазируют, о чем угодно. Возможно кто-то думает, что и я брешу и нет балансировщика на Go. Поэтому, я решил выложить код балансировщика сразу. Этот код был написан в “особой ситуации” за 4 часа, и потом работал примерно в такой форме 2 недели без перегрузки так, как “все” были в Греции. Код не красив и даже содержит ошибки, но так как он работал и балансировал, то уже чего то стоит.<br/>
+<br/>
+Под катом почти оринальный скорописный балансировщик. Я убрал оригинальные константы и код декодирования кук. <br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197570/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197570">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">5720</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">41</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/pyra/" >pyra</a>
+					<span class="rating" title="рейтинг пользователя">76,5</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197570/#comments"><span class="all">20</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197524">
+  	<div class="published">сегодня в 10:57</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197524/" class="post_title">Symfony CMF. Часть 1, хранение данных</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/symfony/" class="hub " title="Вы не подписаны на этот хаб" >Symfony</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/php/" class="hub " title="Вы не подписаны на этот хаб" >PHP</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/cms/" class="hub " title="Вы не подписаны на этот хаб" >CMS</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<img src="http://habrastorage.org/storage3/c1b/f41/bac/c1bf41bace6a77852b5be0209c726b95.png" alt="image" align="left"/><h4>Вместо предисловия</h4><br/>
+Я программирую на <a href="http://yiiframework.com">Yii</a> уже два года и в последнее время начал засматриваться на Symfony Framework 2. Отчасти меня привлекает продуманная архитектура, отчасти слабая связность компонентов, отчасти гибкость построенных приложений. Сразу после того, как я разобрался с основным устройством нового фреймворка, мне стало интересно, возможно ли на нем построить CMS, а может быть, даже воспользоваться готовой.<br/>
+<br/>
+Коробочного решения пока не придумали, однако, каким-то образом я забрел на сайт проекта Symfony CMF и оказался сражен наповал методичным подходом к решению тех проблем, с которыми я сталкивался в бытность работы на конвеере по натягиванию дизайна на какой-нибудь Друпал. На Хабре публикаций про именно CMF нет, да и сам проект еще очень сырой, однако в перспективе выглядит все интересно, хоть местами и есть к чему придраться.<br/>
+<br/>
+<h4>Symfony CMF</h4><br/>
+Проект <a href="http://cmf.symfony.com">Symfony CMF</a> призван упростить разработку функционала, присущего CMS, для всех, кто использует в работе Symfony Framework 2.<br/>
+Основные особенности проекта:<br/>
+<br/>
+<ul>
+<li>слабая связность компонентов</li>
+<li>масштабируемость</li>
+<li>удобство</li>
+<li>тестируемость</li>
+</ul><br/>
+Стоит сделать акцент на слове <strong>CMF</strong> — проект не является CMS сам по себе, это именно <strong>фреймворк</strong>. В отличие от CMS, где все компоненты жестко завязаны друг на друге, в Symfony CMF вы:<br/>
+<br/>
+<ul>
+<li>используете все, что хочется</li>
+<li>заменяете то, что не нравится</li>
+<li>игнорируете то, что не требуется</li>
+</ul><br/>
+То есть, вам дан набор модульных инструментов для разработки, а не готовое приложение «под ключ», хотя уже разработаны базовые бандлы, обеспечивающие CMS-функционал.<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197524/#habracut">Зачем еще один CMF?</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197524">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">3037</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">96</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/waitekk/" >waitekk</a>
+					<span class="rating" title="рейтинг пользователя">101,2</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197524/#comments"><span class="all">8</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197606">
+  	<div class="published">сегодня в 13:31</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197606/" class="post_title">Об одной особенности теоремы Котельникова</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/maths/" class="hub " title="Вы не подписаны на этот хаб" >Математика</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/radio/" class="hub " title="Вы не подписаны на этот хаб" >Радиосвязь</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	Написать данную статью меня вдохновила следующая задача:<br/>
+<br/>
+Как известно из теоремы Котельникова, для того, чтобы аналоговый сигнал мог быть оцифрован а затем восстановлен, необходимо и достаточно, чтобы частота дискретизации была больше или равна удвоенной верхней частоте аналогого сигнала. Предположим, у нас есть синус с периодом 1 секунда. Тогда f = 1∕T = 1 герц, sin((2 ∗ π∕T) ∗ t) = sin(2 ∗ π ∗ t), частота дискретизации 2 герца, период дискретизации 0,5 секунды. Подставляем значения, кратные 0,5 секунды в формулу для синуса sin(2 ∗ π ∗ 0) = sin(2 ∗ π ∗ 0,5) = sin(2 ∗ π ∗ 1) = 0<br/>
+Везде получаются нули. Как же тогда можно восстановить этот синус?<br/>
+<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197606/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197606">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">6402</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">41</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/andy_p/" >andy_p</a>
+					<span class="rating" title="рейтинг пользователя">236,9</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197606/#comments"><span class="all">16</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post translation shortcuts_item" id="post_197506">
+  	<div class="published">вчера в 18:22</div>  
+    <h1 class="title">
+	      
+      
+
+
+	      <a href="http://habrahabr.ru/post/197506/" class="post_title">iPhone 5S обзавелся «синим экраном смерти»</a>
+
+			<span class="flag flag_translation">перевод</span>
+			
+			
+			
+			
+
+  		
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/iphone/" class="hub " title="Вы не подписаны на этот хаб" >iPhone</a>, 
+		<a href="http://habrahabr.ru/hub/apple/" class="hub " title="Вы не подписаны на этот хаб" >Apple</a>
+</div>
+
+  	
+    <div class="content html_format">
+      <img src="http://habr.habrastorage.org/post_images/7ff/181/23a/7ff18123a5239787216c8ec6295cb486.jpg" alt="image"/><br/>
+<br/>
+Новый iPhone 5S от Apple порадовал пользователей неожиданной фичей: BSOD-ом, или «синим экраном смерти». BSOD является типичным сообщением об ошибке старых версий ОС Windows, но многие пользователи iPhone 5S сообщают о неожиданных перезагрузках своих устройств после BSOD-а. Синий экран появляется в первую очередь из-за родных приложений Apple iWork. На видео видно, что перезагрузки вызваны переключением между приложениями, но пользователи так же сообщают и о перезагрузках во время работы.<br/>
+
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197506/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div>
+    </div>
+    
+    
+
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197506">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">35204</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">13</div>
+		
+		
+			<div class="original-author">
+				<a title="Автор оригинала: Tom Warren" href="http://www.theverge.com/2013/10/11/4826934/iphone-5s-blue-screen-reboots">Tom Warren</a>
+			</div>
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/SazereS/" >SazereS</a>
+					<span class="rating" title="рейтинг пользователя">15,9</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197506/#comments"><span class="all">35</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+		
+		
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197572">
+  	<div class="published">сегодня в 12:04</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197572/" class="post_title">Super Mario Bros. можно поиграть в браузере</a>
+
+      
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/html5/" class="hub " title="Вы не подписаны на этот хаб" >HTML</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/gdev/" class="hub " title="Вы не подписаны на этот хаб" >Game Development</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<img src="http://habrastorage.org/storage3/cfe/a31/edf/cfea31edfb1f7df3f2323633b575da31.png"/><br/>
+<br/>
+Блогодаря <a href="http://www.fullscreenmario.com/"> FullScreenMario.com</a> игру можно запустить прямо в браузере. Приложение разработано студентом Джошем Голбергом (<a href="http://www.joshuakgoldberg.com/">Josh Goldberg</a>) — изучающим Computer Science в Политехническом институте Ренсселера. Пользователю кроме класических уровней также доступен “level editor.” Королевство грибов лучше всего работает в последней версии Google Chrome. На оффсайте есть ссылка на Git. 
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197572">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">11369</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">82</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/54300/" >54300</a>
+					<span class="rating" title="рейтинг пользователя">25,0</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197572/#comments"><span class="all">18</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+					
+  <div class="post shortcuts_item" id="post_197516">
+  	<div class="published">сегодня в 12:00</div>
+    <h1 class="title">
+
+	    
+
+	      <a href="http://habrahabr.ru/post/197516/" class="post_title">Сети для Самых Маленьких. Микровыпуск №3. IBGP</a>
+
+      <span class="flag flag_tutorial" title="Обучающий материал">tutorial</span>
+
+			
+
+      
+			
+			
+
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/network_technologies/" class="hub " title="Вы не подписаны на этот хаб" >Сетевые технологии</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/sys_admin/" class="hub " title="Вы не подписаны на этот хаб" >Системное администрирование</a><span class="profiled_hub" title="Профильный хаб">*</span>, 
+		<a href="http://habrahabr.ru/hub/telecom/" class="hub " title="Вы не подписаны на этот хаб" >Телекомы</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+  	<div class="spoiler"><b class="spoiler_title">Все выпуски</b><div class="spoiler_text"><a href="http://linkmeup.ru/blog/65.html">8. Сети для самых маленьких. Часть восьмая. BGP и IP SLA</a><br/>
+<a href="http://linkmeup.ru/blog/50.html">7. Сети для самых маленьких. Часть седьмая. VPN</a><br/>
+<a href="http://linkmeup.ru/blog/33.html">6. Сети для самых маленьких. Часть шестая. Динамическая маршрутизация</a><br/>
+<a href="http://linkmeup.ru/blog/16.html">5. Сети для самых маленьких: Часть пятая. NAT и ACL</a><br/>
+<a href="http://linkmeup.ru/blog/15.html">4. Сети для самых маленьких: Часть четвёртая. STP</a><br/>
+<a href="http://linkmeup.ru/blog/14.html">3. Сети для самых маленьких: Часть третья. Статическая маршрутизация</a><br/>
+<a href="http://linkmeup.ru/blog/13.html">2. Сети для самых маленьких. Часть вторая. Коммутация</a><br/>
+<a href="http://linkmeup.ru/blog/12.html">1. Сети для самых маленьких. Часть первая. Подключение к оборудованию cisco</a><br/>
+<a href="http://linkmeup.ru/blog/11.html">0. Сети для самых маленьких. Часть нулевая. Планирование</a><br/>
+</div></div><br/>
+<br/>
+Долго ли коротко ли длилась история linkmeup, но компания росла, развивалась. Счёт маршрутизаторов уже на десятки, свои опто-волоконные линии, развитая сеть по городу. И было принято решение оформлять компанию, как провайдера и предоставлять услуги доступа в Интернет для сторонних в том числе организаций. <br/>
+Сама по себе задача административная — лицензии там, поиск клиентской базы, реклама, поставить СОРМ.<br/>
+Разумеется, с технической стороны тоже нужны приготовления — просчитать ресурсы, мощности, порты, подготовить политику QoS. Но всё это (за исключением QoS) — рутина.<br/>
+<br/>
+Мы же хотим поговорить о другом — IBGP. Возможно, тема покажется вам несколько притянутой за уши, мол, внутренний BGP — прерогатива достаточно крупных провайдеров. <br/>
+Однако это не так, сейчас iBGP задействуется в ентерпрайзах чуть ли не чаще, чем в провайдерах. С целью исключительно внутренней маршрутизации. Например, ради VPN — очень популярное приложение на базе BGP в корпоративной среде. К примеру, возможность организовать периметры, изолированные на L3, на уже используемой инфраструктуре очень ценна. А префиксов-то может быть каких-то полсотни, а то и десяток. Вовсе никакой не Full View, однако все равно удобно.<br/>
+<br/>
+Возможно, к нашей сети Linkmeup это не имеет по-прежнему отношения, но обойти стороной такую концепцию будет совершенно непростительно. Поэтому предположим, что сеть достаточно велика, и у нас есть необходимость в BGP в ядре. <br/>
+<br/>
+Сегодня обсудим<br/>
+<ul>
+<li>Когда нужен IBGP</li>
+<li>В чём отличия от EBGP</li>
+<li>Route Reflector’ы</li>
+<li>Конфедерации</li>
+<li>Нерассмотренные в основной статье атрибуты BGP</li>
+</ul><br/>
+<br/>
+Традиционное видео<br/>
+<iframe width="560" height="349" src="//www.youtube.com/embed/oFTLaWkGvfE?wmode=opaque" frameborder="0" allowfullscreen></iframe><br/>
+<br/>
+<i>Задачки в этом выпуске не относятся напрямую к IBGP, это, скорее, по BGP в целом. Интересно будет как новичкам поломать голову, так и старожилам размяться</i><br/>
+<br/>
+ 
+  		<div class="buttons">
+				<a class="button habracut" href="http://habrahabr.ru/post/197516/#habracut">Читать дальше &rarr;</a>
+  		</div>
+  	<div class="clear"></div> 	
+  	</div>
+    
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_197516">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark">
+								<span class="score" title="Результат голосования виден только авторизованным пользователям">&#8212;</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">2899</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">200</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/eucariot/" >eucariot</a>
+					<span class="rating" title="рейтинг пользователя">279,2</span>
+				</div>
+		
+	
+				<div class="comments">
+					<a title="Читать комментарии" href="http://habrahabr.ru/post/197516/#comments"><span class="all">10</span> </a>
+					
+				</div>
+	
+		
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+			</div>
+			<div class="page-nav">
+
+	<ul class="next-prev">
+			<li>&#8592;&nbsp;сюда</li>
+		
+			<li><a title="На страницу вперед (Alt + &rarr;)" class="next" id="next_page" href="/page2/" rel="">туда</a>&nbsp;&#8594;</li>
+	</ul>
+	
+	<ul id="nav-pages">
+				<li><em>1</em></li>
+			
+			
+				<li><a href="/page2/">2</a></li>
+			
+				<li><a href="/page3/">3</a></li>
+			
+				<li><a href="/page4/">4</a></li>
+			
+				<li><a href="/page5/">5</a></li>
+			
+				<li><a href="/page6/">6</a></li>
+	</ul>
+</div>
+
+
+
+			
+  <form action="/json/favorites/" method="post" id="edit_tags_form" class="hidden">
+    <input type="hidden" name="action" value="add" />
+    <input type="hidden" name="ti" value="0" />
+    <input type="hidden" name="tt" value="0" />
+    <label>Пометьте топик понятными вам метками, если хотите</label>
+    <input type="text" name="tags_string" class="tags_string" />
+    <div class="description">Метки лучше разделять запятой. Например: <i>общение, социальные сети, myspace.com, подростки, мердок</i></div>
+    <div class="buttons">
+    	<input type="submit" value="Сохранить" class="submit" /> или <a href="#" class="close" onclick="return close_edit_tags()">закрыть</a>
+   	</div>
+  </form>
+
+
+		</div>
+	</div>
+	<div class="sidebar_right">
+			
+			
+			
+	
+	
+	
+		<div class="banner_300x500">
+		<!--  AdRiver code START. Type:AjaxJS Site: habrahabr SZ: main PZ: 0 BN: 1 -->
+		<div id="adriver_banner_1043403436"></div>
+			<script type="text/javascript">
+		var keyword = '';
+		if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+
+		new adriver("adriver_banner_1043403436", {sid: 176776, bt: 52, sz:'main',bn:1,  keyword: keyword});
+		</script>
+		</div>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+			
+			
+			<div class="block fast_navigator">
+ 
+		<div class="title">Хабранавигатор</div>
+    
+		<form action="/" method="post" id="fast_navagator">		  
+		  <select name="category" class="category_select">
+		    <option value="null" selected>Категория</option>
+		    <option value="api" >API</option>
+		    <option value="administration" >Администрирование</option>
+		    <option value="databases" >Базы данных</option>
+		    <option value="security" >Безопасность</option>
+		    <option value="design-and-media" >Дизайн, графика, звук</option>
+		    <option value="hardware" >Железо и гаджеты </option>
+		    <option value="companies-and-services" >Компании и сервисы </option>
+		    <option value="management" >Менеджмент</option>
+		    <option value="programming" >Программирование</option>
+		    <option value="software" >Программное обеспечение</option>
+		    <option value="telecommunications" >Телекоммуникации </option>
+		    <option value="fw-and-cms" >Фреймворки и CMS</option>
+		    <option value="frontend" >Фронтэнд</option>
+		    <option value="others" >Разное </option>
+		  </select>
+		  <p></p>
+		  <select name="hub" disabled class="hub_select">
+		    <option value="null">Хаб</option>
+		  </select>
+		  <div class="buttons">
+		  <input type="submit" disabled="disabled" value="Посмотреть" />
+		  </div>
+		</form>
+</div>
+
+			
+
+			
+
+	<div class="block live_broadcast">
+		<div class="title">Прямой эфир &nbsp;<sup><span class="dotted tab open" data-type="live_broadcast_activity">посты</span> 
+																											 &nbsp;<span class="dotted tab " data-type="qa_activity">q&a</span></sup></div>
+
+		<div class="live_broadcast_activity ">
+				<div class="posts_list">
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/SamOwaR/" class="user_name">SamOwaR</a> &rarr;
+								<a href="/post/197632/#comment_6855314" class="post_name">Huawei Ascend P6: подлинная история создания и подробное исследование самого тонкого китайского смартфона в мире</a>&nbsp;<span class="count">16</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/Bertolomych/" class="user_name">Bertolomych</a> &rarr;
+								<a href="/post/197514/#comment_6855312" class="post_name">Чиновники отклонили петицию об отмене «антипиратского» закона</a>&nbsp;<span class="count">357</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/Anarchist/" class="user_name">Anarchist</a> &rarr;
+								<a href="/post/197630/#comment_6855310" class="post_name">Сравнение производительности MongoDB vs PostgreSQL. Часть II: Index</a>&nbsp;<span class="count">3</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/switlle/" class="user_name">switlle</a> &rarr;
+								<a href="/post/197568/#comment_6855308" class="post_name">Колонка Viks VS-BT10 как решение детско-родительских музыкальных проблем</a>&nbsp;<span class="count">13</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/playerone/" class="user_name">playerone</a> &rarr;
+								<a href="/post/197634/#comment_6855306" class="post_name">«Хабрахабр» запускает программу поддержки стартапов</a>&nbsp;<span class="count">82</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/WWolf/" class="user_name">WWolf</a> &rarr;
+								<a href="/post/197482/#comment_6855302" class="post_name">Сколько зарабатывает писатель и Как послать посредников в тундру</a>&nbsp;<span class="count">470</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/dvs/" class="user_name">dvs</a> &rarr;
+								<a href="/post/197626/#comment_6855298" class="post_name">Суперкомпьютер Watson обучили ставить диагнозы пациентам и тренировать студентов-медиков</a>&nbsp;<span class="count">12</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/qbique/" class="user_name">qbique</a> &rarr;
+								<a href="/post/197588/#comment_6855296" class="post_name">Собранные требования к psd-макету веб-сайта</a>&nbsp;<span class="count">11</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/frig/" class="user_name">frig</a> &rarr;
+								<a href="/post/197668/#comment_6855292" class="post_name">Новая 280-мегаваттная «солнечная» электростанция может работать в течение 6 часов после заката</a>&nbsp;<span class="count">1</span>
+							</div>
+							<div class="post_item">
+								<a href="http://habrahabr.ru/users/SirD/" class="user_name">SirD</a> &rarr;
+								<a href="/post/197546/#comment_6855278" class="post_name">Ghost: Just a blogging platform</a>&nbsp;<span class="count">34</span>
+							</div>
+				</div>
+				<div class="all"><a href="/posts/">все посты</a></div>
+		</div>
+
+		<div class="qa_activity hidden">
+			
+			
+				
+			
+					<div class="posts_list">
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/JDima/" class="user_name">JDima</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48564/#comment_228712" class="post_name">Multicast PIM: почему AutoRP в режиме Sparse работает с выключенным Listner'ом?</a>&nbsp;<span class="count">1</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/alekseev_ap/" class="user_name">alekseev_ap</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48524/#comment_228710" class="post_name">Помогите найти базу словосочетаний с частотой употребления</a>&nbsp;<span class="count">5</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/PaulZi/" class="user_name">PaulZi</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48572/#answer_180950" class="post_name">Планшет теряет связь с wifi роутером</a>&nbsp;<span class="count">2</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/UZER2006/" class="user_name">UZER2006</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48566/#comment_228706" class="post_name">Альтернативный shell</a>&nbsp;<span class="count">2</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/Ocelot/" class="user_name">Ocelot</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48568/#answer_180948" class="post_name">Почему яблоки не магнитятся?</a>&nbsp;<span class="count">5</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/ChemAli/" class="user_name">ChemAli</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48574/#comment_228704" class="post_name">Генерация JSON с вложенными объектами</a>&nbsp;<span class="count">2</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/FluffyMan/" class="user_name">FluffyMan</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48546/#comment_228700" class="post_name">Qt сервер и java клиент. Почему сервер не считывает данные от клиента?</a>&nbsp;<span class="count">2</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/Redf/" class="user_name">Redf</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48536/#comment_228698" class="post_name">А у вашего маршрутизатора i2p сколько?</a>&nbsp;<span class="count">3</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/DenKrep/" class="user_name">DenKrep</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48552/#comment_228696" class="post_name">ssh на роутере Asus WL520GU открыть на WAN (с LAN доступ — ок)</a>&nbsp;<span class="count">3</span>
+								</div>
+								<div class="post_item">
+									<a href="http://habrahabr.ru/users/cat_crash/" class="user_name">cat_crash</a> &rarr;
+									<a href="http://habrahabr.ru/qa/48570/#comment_228690" class="post_name">Единоразовая рассылка (не спам)</a>&nbsp;<span class="count">1</span>
+								</div>
+					</div>
+					<div class="all"><a href="/qa/">все вопросы</a></div>
+		</div>  
+	</div>
+
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.live_broadcast .tab').click(function(){
+				$('.live_broadcast .tab').removeClass('open')
+				$(this).addClass('open')
+
+				$('.live_broadcast_activity').hide()
+				$('.qa_activity').hide()
+
+				$('.' + $(this).data('type')).show();
+
+			})
+		})
+	</script>
+
+
+
+		
+			
+
+<div id="htmlblock_placeholder"></div>
+
+	<script type="text/javascript">
+	var htmlblock_hidden = true;
+	/*
+	var check_window_position = function(name, html, url){
+		console.log('check_window_position',name, html, url);
+		var screen_top = window.pageYOffset
+		var screen_bottom = window.pageYOffset + $(window).height()
+		var htmlblock_placeholder_top = $('#htmlblock_placeholder').offset().top // + ($(window).height() / 2 )
+		if( screen_top < htmlblock_placeholder_top && htmlblock_placeholder_top < screen_bottom ){
+			if ( htmlblock_hidden ){
+				
+				$('.'+name+'_htmlblock').removeClass('hidden');
+				if( typeof(url) !== 'undefined'){
+					$('.'+name+'_htmlblock .block_url').attr('href', url);
+				}
+				if (name == 'ie10_2' || name == 'ie10_3'){
+					var imgie = new Image(1,1);
+					imgie.src = 'http://view.atdmt.com/MRR/view/442774355/direct/01/';
+				}
+
+				htmlblock_hidden = false
+			}
+		}
+	}
+	*/
+	
+	function show_html_block(name, url){
+
+		if( typeof(name) !== 'undefined'){
+			$.get('/json/html/'+name+'/', function(html){
+				$('#htmlblock_placeholder').html(html);
+				$('.'+name+'_htmlblock').removeClass('hidden');
+				if( typeof(url) !== 'undefined'){
+
+					$('.'+name+'_htmlblock .block_url').attr('href', url);
+				}
+			})
+		}
+	}
+	</script>
+
+	<div id="adriver_banner_327292689"></div>
+
+	<script src="/javascripts/1381840903/libs/jquery.cookie.js"></script>
+	<script type="text/javascript">
+
+		//if (true)
+		//  show_html_block('softline_netwrix');
+		//else
+			new adriver("adriver_banner_327292689", {sid:179440, bt:52, sz:'html', bn:2});
+	</script>		 
+			
+<div class="block best_company">
+
+		<div class="title">Компания дня <img src="/images/bg_cicle_help.png" title="
+Компания, чей пост набрал максимальное количество баллов<br>
+среди всех опубликованных в корпоративных блогах постах за <br>
+прошедшие сутки. Учитываются посты, для которых истек срок голосования <br>(3 дня с момента публикации)." class="help-tip"></div>
+
+		<div class="company_info">
+			<div class="name">
+			 <img class="favicon" src="//habr.habrastorage.org/companies/419/5af/c0f/4195afc0ff4e2b460a7e2dbca4361fb9_small.png" alt="ABBYY" height="16" width="16" />
+			 <div class="company_name"><a href="http://habrahabr.ru/company/abbyy/" class="title">ABBYY</a></div>
+			</div>
+
+			<p>Последний пост:
+				<a href="http://habrahabr.ru/company/abbyy/blog/197486/">ЕСМ-системы: можно ли осваивать играючи, или пять копеек в защиту геймификации</a>
+			</p>
+
+			<div class="buttons">
+  			<div id="fans_count">1741 подписчик</div>
+			</div>
+		</div>
+
+	</div>
+
+
+			
+
+
+			
+
+
+				
+	<div class="block new_vacanies">
+  <a href="http://hantim.ru" class="title">Хантим</a>
+  <div class="vacancies">
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/20502-programmist-php-mysql-js">Программист PHP, MySQL, JS</a>&nbsp;&rarr; <a href="http://VisitWeb.hantim.ru/jobs" class="company_name">ВизитВеб</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/23566-veb-dizayner">Веб-дизайнер</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/25066-senior-android-developer">Senior Android Developer</a>&nbsp;&rarr; <a href="http://hauberk.hantim.ru/jobs" class="company_name">Hauberk Russland</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/25064-team-lead-android">Team Lead Android</a>&nbsp;&rarr; <a href="http://hauberk.hantim.ru/jobs" class="company_name">Hauberk Russland</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24958-vedushiy-bekend-razrabotchik-python">Ведуший Бэкенд Разработчик (Python)</a>&nbsp;&rarr; <a href="http://SoftwareStars.hantim.ru/jobs" class="company_name">SoftwareStars</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/23878-devops-sistemnyy-administrator-linux">DevOps / Системный администратор Linux</a>&nbsp;&rarr; <a href="http://Digital-October.hantim.ru/jobs" class="company_name">Digital October Group</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/25062-programmist-s">Программист С++</a>&nbsp;&rarr; <a href="http://Rocket-Jump.hantim.ru/jobs" class="company_name">Rocket Jump</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/25060-trafik-menedzher">Трафик-менеджер</a>&nbsp;&rarr; <a href="http://topface.hantim.ru/jobs" class="company_name">Topface</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/25038-razrabotchik-vnutrennih-servisov-java">Разработчик внутренних сервисов (Java)</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24476-razrabotchik-bannernoy-sistemy-kiev">Разработчик баннерной системы (Киев)</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24474-razrabotchik-v-sluzhbu-razrabotki-vnutrennih-servisov-python">Разработчик в службу разработки внутренних сервисов (Python)</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24472-razrabotchik-poiskovyh-interfeysov-simferopol">Разработчик поисковых интерфейсов Симферополь</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24470-razrabotchik-poiskovyh-interfeysov">Разработчик поисковых интерфейсов</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/24466-razrabotchik-yandeks-diska-dlya-windows">Разработчик Яндекс.Диска (для Windows)</a>&nbsp;&rarr; <a href="http://yandex.hantim.ru/jobs" class="company_name">Яндекс</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/25042-razrabotchik-prilozheniya-vkontakte">Разработчик приложения ВКонтакте</a>&nbsp;&rarr; <a href="http://akawitch.hantim.ru/jobs" class="company_name">Ведьма Pictures</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/17296-chyotkiy-php-mysql-programmist">Чёткий PHP/MySQL программист</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/25050-moushn-3d-dizayner-motion-designer">Моушн + 3D дизайнер (Motion designer)</a>&nbsp;&rarr; <a href="http://Digital-October.hantim.ru/jobs" class="company_name">Digital October Group</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/25046-veb-programmist">Веб-программист </a>
+		</div>
+		<div class="job_item ">
+			<a href="http://hantim.ru/jobs/23860-music-ingestions-engineer">Music Ingestions Engineer</a>&nbsp;&rarr; <a href="http://DI.hantim.ru/jobs" class="company_name">Dream Industries</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://hantim.ru/jobs/25034-programmist-php">Программист php</a>
+		</div>
+  </div>
+  <div class="all"><a href="http://hantim.ru/">все вакансии</a></div>
+</div>
+
+			
+	<div class="block freelansim">
+	  <a href="http://freelansim.ru" class="title"></a>
+	  <div class="tasks">
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39912">Дизайн лендинга</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39910">верстка одной странички</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39908">Joomla 2.5 + Zoo</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39904">Редактор-корректор (долгосрочно)</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39906">android scaner штрих-кодов</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39896">Разработать фирменный стиль</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39902">Доработка магазина на OpenCart</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39900">Нарисовать</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39898">Фильтрация по категориям Wordpress с помощью checkbox.</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39894">Объединенная новостная лента</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39888">Журналист-копирайтер на сайт про смартфоны (долгосрочно) </a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39886">Качественная картинка (фон) для сайта</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39884">Программист</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39880">Добавление товаров - opencart 1.5.5.1</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39882">Требуется верстальщик для веб-магазина (Magento)</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39876">Начинающий Django-программист</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39874">Сделать баннер для медицинского портала</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39870">Битрикс</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39868">Статьи на тему фитнеса</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/39862">Сайт под ключ</a>
+				</div>
+
+	  </div>
+	  <div class="all"><a href="http://freelansim.ru/tasks">все заказы</a></div>
+	</div>
+
+			
+			
+			
+
+	<div class="block new_companies">
+		<div class="title">Новые компании</div>
+		
+			<div class="companies_items">
+				<div class="company_item " id="company_2248">
+					<div class="favicon">
+						<img src="//habr.habrastorage.org/company/855/e4e/a80/855e4ea802e0ba6335ba4ec79500a953_small.png" alt="логотипчик компании Master UP " title="Master UP" />
+					</div>
+					<div class="title">
+						<a href="/company/masterup/">Master UP</a>
+					</div>
+				</div>
+				<div class="company_item " id="company_2244">
+					<div class="favicon">
+						<img src="//habr.habrastorage.org/company/594/231/872/5942318728ba3829276934e88dfa36c9_small.jpg" alt="логотипчик компании ПостНаука " title="ПостНаука" />
+					</div>
+					<div class="title">
+						<a href="/company/postnauka/">ПостНаука</a>
+					</div>
+				</div>
+				<div class="company_item " id="company_2246">
+					<div class="favicon">
+						<img src="//habr.habrastorage.org/company/470/f7a/2e4/470f7a2e40c4e0e5acab4dd095a0d2bc_small.png" alt="логотипчик компании DevHub " title="DevHub" />
+					</div>
+					<div class="title">
+						<a href="/company/devhub/">DevHub</a>
+					</div>
+				</div>
+			</div>
+		<div class="all"><a href="/companies/new/">все новые компании</a></div>
+	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+		
+			/** 
+		   * присоедениться
+		   */
+		  $('.new_companies .subscribe_button').click(function(){
+		  	var link = $(this);
+		    var company_id = link.data('id');
+		    $.post('/json/corporation/fan_add/', { company_id: company_id }, function(json){
+		      if(json.messages =='ok'){
+		        $('.new_companies #company_'+company_id).addClass('subscribed');
+		      }else{
+		        show_system_error(json);
+		      }
+		    },'json');
+		    return false;
+		  });
+		  
+		  // покинуть
+		  $('.new_companies .unsubscribe_button').click(function(){
+		    var link = $(this);
+			  var company_id = link.data('id');
+		      $.post('/json/corporation/fan_del/', { company_id: company_id }, function(json){
+		        if(json.messages =='ok'){
+		          $('.new_companies #company_'+company_id).removeClass('subscribed');
+		        }else{
+		          show_system_error(json);
+		        }
+		      },'json');
+		    return false;
+		  });
+		  
+		})
+	</script>
+
+
+
+			
+
+<div class="block similar_events">
+	<div class="title">Ближайшие события</div>
+		<div class="events_items">
+				<div class="event_item">
+						<div class="date">
+						<div class="dayname dayname_3"></div>
+						<div class="day">16</div>
+						<div class="month">окт</div>
+						</div>
+					<div class="title">
+						<a href="/events/3474/">Пресс-конференция и презентация компании Taiwan Excellence</a>
+					</div>
+				</div>
+				<div class="event_item">
+						<div class="date">
+						<div class="dayname dayname_3"></div>
+						<div class="day">16</div>
+						<div class="month">окт</div>
+						</div>
+					<div class="title">
+						<a href="/events/3136/">Курс для тимлидов</a>
+					</div>
+				</div>
+				<div class="event_item">
+						<div class="date">
+						<div class="dayname dayname_4"></div>
+						<div class="day">17</div>
+						<div class="month">окт</div>
+						</div>
+					<div class="title">
+						<a href="/events/3336/">Неделя Российского Интернета (RIW-2013)</a>
+					</div>
+				</div>
+				<div class="event_item">
+						<div class="date">
+						<div class="dayname dayname_4"></div>
+						<div class="day">17</div>
+						<div class="month">окт</div>
+						</div>
+					<div class="title">
+						<a href="/events/3278/">Семинар «Sentinel HASP: защита и лицензирование»</a>
+					</div>
+				</div>
+				<div class="event_item">
+						<div class="date">
+						<div class="dayname dayname_4"></div>
+						<div class="day">17</div>
+						<div class="month">окт</div>
+						</div>
+					<div class="title">
+						<a href="/events/3344/">Certified Scrum Product Owner Class от Jeff McKenna в Киеве</a>
+					</div>
+				</div>
+		</div>
+	<div class="all"><a href="/events/">все события</a></div>
+</div>
+
+			
+	</div>
+	<div class="clear"></div>
+
+  
+        	
+	<div class="rotated_posts">
+			<div class="rotated_post ">
+				<a href="http://habrahabr.ru/post/192376/" class="grey">Пост о Хабре и добре</a>
+			</div>
+			<div class="rotated_post ">
+				<a href="http://habrahabr.ru/post/188826/" class="grey">Зачем МГТС двигает PON</a>
+			</div>
+			<div class="rotated_post last">
+				<a href="http://habrahabr.ru/post/184706/" class="grey">Новейший российский фотоспутник «Ресурс-П» успешно выведен на орбиту</a>
+			</div>
+		<div class="clear"></div>
+	</div>
+
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        // test gggg
+        // настройки всплывающих уведомлений
+        $.jGrowl.defaults.closerTemplate = '<div>Закрыть все уведомления</div>';         
+        
+        // настройки тултипов
+        $(".help-tip").tipTip({maxWidth: "300px", edgeOffset: 10});  
+        
+      });
+      // global vars
+      var g_base_url = 'habrahabr.ru';
+      var g_show_xpanel = false;
+      var g_base_fullurl = 'http://habrahabr.ru/';
+      var g_is_guest = false;
+    </script>
+    
+    <script type="text/javascript" src="/javascripts/1381840903/_parts/shortcuts.js"></script>
+    <script type="text/javascript" src="/javascripts/1381840903/_parts/to_top.js"></script>
+    <link href="/styles/1381840903/_parts/_to_top.css" rel="stylesheet" media="all" />
+
+    
+    <script type="text/javascript" src="/javascripts/1381840903/_parts/float_block.js"></script>
+    
+    <!-- <script type="text/javascript" src="/javascripts/1381840903/_parts/float_block.js"></script> //-->
+      <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter19919284 = new Ya.Metrika({id:19919284,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/19919284" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<script type="text/javascript">
+	/*<![CDATA[*/
+	var ga = document.createElement('script');
+		ga.setAttribute('async', 'true');
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	/* ]]>*/
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(
+	    ['_setAccount', 'UA-726094-1'],
+	    ['_setDomainName', '.habrahabr.ru'],
+	    ["_addOrganic", "mail.ru", "q"],
+	    ["_addOrganic","rambler.ru", "words"],
+	    ["_addOrganic","nigma.ru", "s"],
+	    ["_addOrganic","blogs.yandex.ru", "text"],
+	    ["_addOrganic","webalta.ru", "q"],
+	    ["_addOrganic","aport.ru", "r"],
+	    ["_addOrganic","akavita.by", "z"],
+	    ["_addOrganic","meta.ua", "q"],
+	    ["_addOrganic","bigmir.net", "q"],
+	    ["_addOrganic","tut.by", "query"],
+	    ["_addOrganic","all.by", "query"],
+	    ["_addOrganic","i.ua", "q"],
+	    ["_addOrganic","online.ua", "q"],
+	    ["_addOrganic","a.ua", "s"],
+	    ["_addOrganic","ukr.net", "search_query"],
+	    ["_addOrganic","search.com.ua", "q"],
+	    ["_addOrganic","search.ua", "query"],
+	    ["_addOrganic","poisk.ru", "text"],
+	    ["_addOrganic","km.ru", "sq"],
+	    ["_addOrganic","liveinternet.ru", "ask"],
+	    ["_addOrganic","gogo.ru", "q"],
+	    ["_addOrganic","gde.ru", "keywords"],
+	    ["_addOrganic","quintura.ru", "request"],
+	    ['_trackPageview']
+	);
+	document.documentElement.firstChild.appendChild(ga);
+</script>	
+
+    <script type="text/javascript" src="/javascripts/1381840903/advertising.js"></script>
+    
+    
+    <div id="footer">
+			<dl>
+				<dd><a href="https://auth.habrahabr.ru/login/">Войти</a></dd>
+				<dd><a href="https://auth.habrahabr.ru/register/">Регистрация</a></dd>
+			</dl>
+			<dl>
+				<dt>Разделы</dt>
+
+				<dd><a href="http://habrahabr.ru/qa/">Q&A</a></dd>
+				<dd><a href="http://habrahabr.ru/hubs/">Хабы</a></dd>
+				<dd><a href="http://habrahabr.ru/events/">События</a></dd>
+				<dd><a href="http://habrahabr.ru/companies/">Компании</a></dd>
+				<dd><a href="http://habrahabr.ru/users/">Пользователи</a></dd>
+			</dl>
+			<dl>
+				<dt>Посты</dt>
+				
+				<dd><a href="http://habrahabr.ru/posts/top/">Лучшие</a></dd>
+				<dd><a href="http://habrahabr.ru/posts/collective/">Тематические</a></dd>
+				<dd><a href="http://habrahabr.ru/posts/corporative/">Корпоративные</a></dd>
+				<dd><a href="http://habrahabr.ru/sandbox/">Песочница</a></dd>
+			</dl>
+			<dl>
+				<dt>Инфо</dt>
+				<dd><a href="http://habrahabr.ru/info/about/">О сайте</a></dd>
+				<dd><a href="http://habrahabr.ru/info/help/rules/">Правила</a></dd>
+				<dd><a href="http://habrahabr.ru/info/help/">Помощь</a></dd>
+				<dd><a href="http://habrahabr.ru/info/agreement/">Соглашение</a></dd>
+				<dd><a href="http://habrahabr.ru/info/stats/">Статистика</a></dd>
+			</dl>
+			<dl>
+				<dt>Услуги</dt>
+				<dd><a href="http://habrahabr.ru/info/advertising/">Реклама</a></dd>
+				<dd><a href="http://habrahabr.ru/info/advertising/corporate/">Корпоративные тарифы</a></dd>
+				<dd><a href="http://habrahabr.ru/info/advertising/workshops/">Семинары</a></dd>
+				<dd><a href="http://habrahabr.ru/special/">Спецпроекты</a></dd>
+				<dd><a href="http://habrahabr.ru/info/hello_startup/" style="color:green;">Помощь стартапам</a></dd>
+			</dl>
+      <div class="copyright">
+
+    		<div class="about">
+    		  <a class="footer_logo" href="http://thematicmedia.ru/">Тематические Медиа</a>
+    			© 2006&#8211;2013
+			<br><br>
+			<a href="http://habrahabr.ru/feedback/">Служба поддержки</a><br><br>
+			<a href="http://m.habrahabr.ru">Мобильная версия</a><br><br>
+			
+			
+			<div class="social_accounts">
+				<a href="https://twitter.com/habrahabr" class="tw"></a>
+				<a href="https://www.facebook.com/habrahabr.ru" class="fb"></a>
+				<a href="http://vk.com/habr" class="vk"></a>
+				<!-- <a href="" class="gp"></a> //-->
+			</div>
+			
+		</div>
+      </div>
+
+</div>    
+    <div class="footer_logos">
+		
+		<div class="project brainstorage">
+			<a href="http://brainstorage.ru" class="icon "></a>
+			<div class="text">Все мозги в одном месте</div>
+		</div>
+
+		<div class="project freelansim">
+			<a href="http://freelansim.ru" class="icon "></a>
+			<div class="text">Заказы для фрилансеров</div>
+		</div>
+		
+		
+		<div class="project hantim">
+			<a href="http://hantim.ru" class="icon "></a>
+			<div class="text">Вакансии для айтишников</div>
+		</div>
+		
+		<div class="project autokadabra">
+			<a href="http://autokadabra.ru" class="icon "></a>
+			<div class="text ">Уютная и дружелюбная</div>
+		</div>
+		
+</div>
+
+
+    
+    
+    
+  </body>
+</html>
