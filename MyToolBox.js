@@ -291,3 +291,122 @@ getDataByEvent.subscribe(resultObj);*/
 				  }
 			};
 		}());
+//16)--------------------------------------------паттерн Decorate------------------------
+    function decorate(original, mm_func) {
+
+        return function() {
+            var res;
+            mm_func.apply(this, arguments);
+            res = original.apply(this, arguments);
+
+            return res;
+        };
+    }
+
+    function new_func() {
+        //...
+    }
+    
+    old_func = decorate(old_func, new_func);
+
+//17)--------------------------------------------adding your styles------------------------
+    function mm_style(css, id) {
+
+        var head = document.head || document.getElementsByTagName('head')[0],
+            stl = document.createElement('style');
+
+            stl.type = 'text/css';
+            stl.id = id;
+            if (stl.styleSheet) {
+                stl.styleSheet.cssText = css;
+            } else {
+                stl.appendChild(document.createTextNode(css));
+            }
+            head.appendChild(stl);
+    }
+    mm_style('body {position: relative; left:-10000px; visibility: hidden;}', 'mm_t22_hide'); 
+
+
+//18)--------------------------------------------Browser detection 
+/Firefox/.test(navigator.userAgent) // for FireFox
+
+/Trident/.test(navigator.appVersion) // for IE
+/Trident\/[5-7]\.0/.test(navigator.appVersion) // for IE 9|10|11
+
+if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) { // for Safari
+    var position = navigator.userAgent.search("Version") + 8;
+    var end = navigator.userAgent.search(" Safari");
+    var version = navigator.userAgent.substring(position,end);
+    if (/6|7\.0/.test(version)) { // for Safari 6|7
+        
+    }
+}
+//19)----------------------------Немного о деффердах
+var def = new $.Deferred;
+var def2 = new $.Deferred;
+var prom = def.promise();
+
+prom.then(function () { // когда then для 1-го
+  return def2.promise();// возвращает 2-ой объект дефферд
+}).done(function () {
+  console.log('Done'); // то done уже будет относиться ко 2-му, и выполниться только после
+});
+
+def.resolve();
+setTimeout('def2.resolve()', 1500); // ресолва для 2-го
+
+//20)----------------------------window onload
+function ready() { 
+
+}
+
+if (window.addEventListener)
+    window.addEventListener('load', ready, false);
+else if (window.attachEvent)
+    window.attachEvent('onload', ready);
+
+//21)----------------------------all imgs loaded event
+var loadedImgs = 0,
+    itemsImgs = $('img');
+
+function checkImgLoad() {
+    if (++loadedImgs === itemsImgs.length) {
+        //..do something
+    }
+}
+
+itemsImgs.load(checkImgLoad).error(checkImgLoad);
+
+//22) ---------------------------insert img
+#$(ContentManager:IMG_name.png)!
+
+//23) -----------------------------each AJAX complete
+var oldAJAXOpen = XMLHttpRequest.prototype.open;
+
+function onStateChange(event) {
+    if (event.currentTarget && event.currentTarget.readyState === 4) {
+        // ...&& event.currentTarget.responseURL(event.currentTarget.response) = 'url(text)'
+    }
+}
+
+XMLHttpRequest.prototype.open = function() {
+
+    if (window.addEventListener)
+        this.addEventListener("readystatechange", onStateChange);
+    else if (window.attachEvent)
+        this.attachEvent("onreadystatechange", onStateChange);
+    
+    oldAJAXOpen.apply(this, arguments);
+}
+
+//24) ------------------------- trigger on each DOM change
+$('body').bind("DOMSubtreeModified", function () {
+    //..do something ””
+});
+
+//25) ------------------------- trigger on each 'elem' size change
+$(elem).append('<iframe id="frame0" name="frame0" width=100% height=100% style="position:absolute;z-index:-1;top:0;"></iframe>');
+
+frame0.onresize = function() {
+    //..do something ””
+}
