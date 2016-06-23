@@ -75,15 +75,15 @@ function clearFromArr(arr1, arr2) {
 //  console.log(clearFromArr([1,2,3,4,5,4], [4,1])); // выдаст [2,3,5,4]
 		
 //6)----------------------------------------------ф-ция убирает повторяющиеся элементы из массива(все елементы-уникальные)
- function dublicatKiller(arr) {
-            var newArr =[].concat(arr); // копирование массива
-            for (var i = 0; i < newArr.length; i++) {
-                while (newArr.indexOf(newArr[i], i + 1) !== -1) {
-                    newArr.splice(newArr.indexOf(newArr[i], i + 1), 1);
-                }
+    function dublicatKiller(arr) {
+        var j, newArr = [].concat(arr); // копирование массива
+        for (var i = 0; i < newArr.length; i++) {
+            while (j = newArr.indexOf(newArr[i], i + 1), j !== -1) {
+                newArr.splice(j, 1);
             }
-            return newArr;
         }
+        return newArr;
+    }
 
 //7)----------------------------------------------соседний элемент переданного узла(node) без " ", и коментов в DOM
 var next = (function () {
@@ -291,6 +291,7 @@ getDataByEvent.subscribe(resultObj);*/
 				  }
 			};
 		}());
+
 //16)--------------------------------------------паттерн Decorate------------------------
     function decorate(original, mm_func) {
 
@@ -308,6 +309,16 @@ getDataByEvent.subscribe(resultObj);*/
     }
     
     old_func = decorate(old_func, new_func);
+
+    //-------------||-----------------
+
+    old_func = (function(fn) {
+        return function () {
+            new_func();
+            return fn.apply(this, arguments);
+        }               
+    }(old_func))
+
 
 //17)--------------------------------------------adding your styles------------------------
     function mm_style(css, id) {
@@ -341,6 +352,7 @@ if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chr
         
     }
 }
+
 //19)----------------------------Немного о деффердах
 var def = new $.Deferred;
 var def2 = new $.Deferred;
@@ -410,3 +422,138 @@ $(elem).append('<iframe id="frame0" name="frame0" width=100% height=100% style="
 frame0.onresize = function() {
     //..do something ””
 }
+
+//26) ------------------------- popup centered
+'#overlay {' +
+    'position: fixed;' +
+    'top: 0px;' +
+    'left: 0px;' +
+    'height: 120%;' +
+    'width: 100%;' +
+    'opacity: 0.65;' +
+    'background-color: #000;' +
+    'z-index: 99998;' +
+'}' +
+'#popup {' +
+    'position: fixed;' +
+    'width: 100%;' +
+    'height: 100%;' +
+    'display: flex;' +
+    'display: -webkit-flex;' +
+    'overflow: auto;' +
+    'flex-direction: column;' +
+    'z-index: 99999;' +
+'}' +
+'#popup .wrap_centered {' +
+    'margin: auto;' +
+    'width: (any)px;' +
+    'height: (any)px;' +
+    'position: relative;' +
+    'padding: 30px;' +
+    'overflow: hidden;' +
+    'background-color: white;' +
+'}'
+
+//27) ------------------------- dinamic mm_inner_HTML
+/**
+ * Минималистическая шаблонная система.
+ * @param {string} str строка для замены.
+ * @param {Object} dependence зависимость, что на что меняется.
+ * @param {string} left_separator левый разделитель.
+ * @param {string} right_separator правый разделитель.
+ * @return {string} Обработанную строку.
+ */
+template = function(str, dependence, left_separator, right_separator){
+    // Если ничего не передать, то вернет пустую строку
+    if(!str) return '';
+    // Если не передали массив с зависимостями то ничего заменяться не будет
+    //@TODO возможно выходить надо тут тоже как и в случае с пустой строкой
+    var dependence = (dependence||[]),
+    // Разделитель с левой стороны        
+        left_separator = (left_separator||'%%'),
+    // Разделитель с правой стороны
+        right_separator = (right_separator||'%%');
+        
+    return str.replace(new RegExp(left_separator+"(.*?)"+right_separator,"ig"),function(def, key){
+        // Если зависимость не найдена то ничего не меняем
+        return dependence[key] ? dependence[key] : def
+    });
+}
+
+//28) ------------------------- setCookie
+function setCookie(name, value, options) {
+  options = options || {};
+
+  var expires = options.expires;
+
+  if (typeof expires == "number" && expires) {
+    var d = new Date();
+    d.setTime(d.getTime() + expires * 1000);
+    expires = options.expires = d;
+  }
+  if (expires && expires.toUTCString) {
+    options.expires = expires.toUTCString();
+  }
+
+  value = encodeURIComponent(value);
+
+  var updatedCookie = name + "=" + value;
+
+  for (var propName in options) {
+    updatedCookie += "; " + propName;
+    var propValue = options[propName];
+    if (propValue !== true) {
+      updatedCookie += "=" + propValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
+//29 ---------------------------------correct redirect
+
+if (/Firefox/.test(navigator.userAgent)) window.location.hash = ' ';
+window.location.assign('');
+
+//30 -------------------------------get ip adress
+$.ajax({
+    type: 'GET',
+    url: 'https://ipleak.net/',
+    success: function(data) {
+        var ip = data.match(/data-i="[0-9,_]+"/);
+         
+        if (ip && /62_190_107_52/.test(ip[0])) {
+            //...
+        }
+    },
+    error: function(){
+        //...
+    }
+});
+
+//31 -------------------------------capitalizeFirstLetter
+
+function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+//32) -------------------------------prevent Angular Bootstrapping
+
+    //stop default bootstrap
+    window.name = "NG_DEFER_BOOTSTRAP! " + window.name;
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        //resume Angular bootstrap as soon as possible
+
+        // do something...
+        window.addEventListener("load", function load(event) {
+            window.removeEventListener("load", load, false);
+            angular.resumeBootstrap();
+        }, false);
+
+
+    });
+
+//33) Email validation
+
+var emailRegExp = new RegExp("^[-a-zA-Z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9]))\.*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$");
