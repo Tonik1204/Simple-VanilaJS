@@ -557,3 +557,21 @@ function capitalizeFirstLetter(string) {
 //33) Email validation
 
 var emailRegExp = new RegExp("^[-a-zA-Z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9]))\.*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$");
+
+//34) Open select manually
+
+var openSelect = function(selector){
+     var element = $(selector)[0], worked = false;
+    if (document.createEvent) { // all browsers
+        var e = document.createEvent("MouseEvents");
+        e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        worked = element.dispatchEvent(e);
+    } else if (element.fireEvent) { // ie
+        worked = element.fireEvent("onmousedown");
+    }
+    if (!worked) { // unknown browser / error
+        alert("It didn't worked in your browser.");
+    }   
+}
+
+openSelect('...selcetor');
