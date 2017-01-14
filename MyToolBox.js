@@ -438,6 +438,7 @@ frame0.onresize = function() {
     top: 20%;
     left: 0px;
     right: 0px;
+    width: 100px;
     padding: 30px;
     z-index: 999;
     background-color: white;
