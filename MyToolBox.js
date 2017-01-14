@@ -1,13 +1,13 @@
 //0)----------------------------------------------вывод данных в консоль
  function l() {
-		if (window.console.log){
+        if (window.console.log){
             return window.console.log.apply(console, arguments);
-			}
+            }
     }
-		
+        
 //1)----------------------------------------------проверка на массив и на объект
 function isArray(obj) {
-    return Object.prototype.toString.call(obj) === '[object Array]';
+    return Object.prototype.toString.call(obj) === '[object Array]'; //obj instanceof Array
 }
 
 function isObject (obj) {
@@ -25,7 +25,7 @@ function filter(arr, func) {
     return newArr;
 }
 
-//3)----------------------------------------------использовать только с filter	
+//3)----------------------------------------------использовать только с filter  
 function inArray(arr) {
             return function compare(elem) {
                 for (var i = 0; i < arr.length; i++) {
@@ -35,7 +35,7 @@ function inArray(arr) {
                 }
             };
 }
-//Пример работы 2-ой и 3-ей ф-ций вместе. Результат: все элементы первого массива, которые встречаются во втором(одинаковые элементы первого массива оставляет)			
+//Пример работы 2-ой и 3-ей ф-ций вместе. Результат: все элементы первого массива, которые встречаются во втором(одинаковые элементы первого массива оставляет)         
 // var arr = [1, 2, 3, 4, 2, 5, 6, 7];
 // console.log(filter(arr, inArray([1, 2, 10]))); // [1,2,2]
 
@@ -57,7 +57,7 @@ function inArray(arr) {
             return resArr;
         }
 
-//5)----------------------------------------------ф-ция убирает из первого массива все элементы второго(одинаковые элементы не убираются, убирается ровно столько сколько во втором массиве)	
+//5)----------------------------------------------ф-ция убирает из первого массива все элементы второго(одинаковые элементы не убираются, убирается ровно столько сколько во втором массиве)    
 function clearFromArr(arr1, arr2) {
             var newArr1 = [].concat(arr1);
             var newArr2 = [].concat(arr2);
@@ -71,9 +71,9 @@ function clearFromArr(arr1, arr2) {
                 }
             }
             return newArr1;
-        }	
+        }   
 //  console.log(clearFromArr([1,2,3,4,5,4], [4,1])); // выдаст [2,3,5,4]
-		
+        
 //6)----------------------------------------------ф-ция убирает повторяющиеся элементы из массива(все елементы-уникальные)
     function dublicatKiller(arr) {
         var j, newArr = [].concat(arr); // копирование массива
@@ -85,6 +85,14 @@ function clearFromArr(arr1, arr2) {
         return newArr;
     }
 
+//6.5)-------------------------------------------ф-ция возвр строку из всех елементов многурвн-го массива 
+    function geMultiArrStr(arr, initStr = '') {
+        return arr.reduce(function(sumStr, el) {
+            return (el instanceof Array) ? geMultiArrStr(el, sumStr) : sumStr + el;
+        }, initStr);
+    }
+//  console.log(geMultiArrStr([['d'], 'sd', ['2', ['ad', '10']]]));
+
 //7)----------------------------------------------соседний элемент переданного узла(node) без " ", и коментов в DOM
 var next = (function () {
 var TEXT_NODE_TYPE = 3;
@@ -93,18 +101,18 @@ var COMMENT_NODE_TYPE = 8;
 return function (node) {
 var nextSiblingNode = node.nextSibling;
 while (!(nextSiblingNode && ((nextSiblingNode.nodeType !== TEXT_NODE_TYPE) && (nextSiblingNode.nodeType !== COMMENT_NODE_TYPE)))){
-	nextSiblingNode=nextSiblingNode.nextSibling;
+    nextSiblingNode=nextSiblingNode.nextSibling;
 }
 return nextSiblingNode;
 }}());
 
 //8)----------------------------------------------возвращает елементы arr1 не присутствующие в arr2(не включает одинаковых элементов)
 function fitlerFromArr(arr1, arr2) { 
-		var newArr = arr1.filter(function (value) {
+        var newArr = arr1.filter(function (value) {
             return arr2.indexOf(value) === -1;
-		});
-		return newArr;
-		}
+        });
+        return newArr;
+        }
 //  console.log(clearFromArr([1,2,3,4,5,4], [4,1])); // выдаст [2,3,5]
 
 //9)----------------------------------------------Преобразует массиоподобный объект в массив
@@ -160,51 +168,51 @@ function getCoords(elem) {
             node.attachEvent('on' + eventName,
                     handlerCrossBrowser);
         }
-		return handlerCrossBrowser;
+        return handlerCrossBrowser;
     }
-	
-	function unbind(obj, event_name, handler) {
+    
+    function unbind(obj, event_name, handler) {
             if (obj.removeEventListener) {
                 obj.removeEventListener(event_name, handler, false);
             } else {
                 obj.detachEvent('on' + event_name, handler);
             }
         }
-	
-	function addEvent(obj, event_name, handler) {
+    
+    function addEvent(obj, event_name, handler) {
             if (obj.addEventListener) {
                 obj.addEventListener(event_name, handler, false);
             } else if (obj.attachEvent) {
                 obj.attachEvent('on' + event_name, handler);
             }
         }
-		
-		function removeEvent(obj, event_name, handler) {
-				if (obj.removeEventListener) {
-					obj.removeEventListener(event_name, handler, false);
-				} else {
-					obj.detachEvent('on' + event_name, handler);
-				}
-			}
+        
+        function removeEvent(obj, event_name, handler) {
+                if (obj.removeEventListener) {
+                    obj.removeEventListener(event_name, handler, false);
+                } else {
+                    obj.detachEvent('on' + event_name, handler);
+                }
+            }
 
 //12)-----------------------------------------------функции для работы с классами и отмена действий браузера по умолчанию
-	function hasClass(el, name) {
-		return new RegExp('(\\s|^)' + name + '(\\s|$)').test(el.className);
-	}
+    function hasClass(el, name) {
+        return new RegExp('(\\s|^)' + name + '(\\s|$)').test(el.className);
+    }
 
-	function addClass(el, name) {
-		if (!hasClass(el, name)) {
-			el.className += (el.className ? ' ' : '') + name;
-		}
-	}
+    function addClass(el, name) {
+        if (!hasClass(el, name)) {
+            el.className += (el.className ? ' ' : '') + name;
+        }
+    }
 
-	function removeClass(el, name) {
-		if (hasClass(el, name)) {
-			el.className = el.className.replace(new RegExp('(\\s|^)' + name + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
-		}
-	}
-	
-	function prevDef(event) {
+    function removeClass(el, name) {
+        if (hasClass(el, name)) {
+            el.className = el.className.replace(new RegExp('(\\s|^)' + name + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
+        }
+    }
+    
+    function prevDef(event) {
         if (event.preventDefault) {
             event.preventDefault();
         } else {
@@ -248,7 +256,7 @@ function getCoords(elem) {
         return Observer;
     } ());
 // передача данных как свойство "result" объекта
-	var Observer = (function () {
+    var Observer = (function () {
         function Observer() {
             this.subscribers = [];
         }
@@ -263,7 +271,7 @@ function getCoords(elem) {
         };
         return Observer;
     } ());
-	/* пример:
+    /* пример:
 var resultObj = {}; 
 var getDataByEvent = new Observer();
 getDataByEvent.deliver(!!!->data);
@@ -277,20 +285,20 @@ getDataByEvent.subscribe(resultObj);*/
             color += letters[Math.round(Math.random() * 15)];
           }
           return color;
-        }	
+        }   
 
 //15)--------------------------------------------паттерн Singletone------------------------
-		var Singletone=(function (){
-			var instance;
-			
-			return function (){
-				if (instance){
-					return instance;
-				} else {
-					instance = this;
-				  }
-			};
-		}());
+        var Singletone=(function (){
+            var instance;
+            
+            return function (){
+                if (instance){
+                    return instance;
+                } else {
+                    instance = this;
+                  }
+            };
+        }());
 
 //16)--------------------------------------------паттерн Decorate------------------------
     function decorate(original, mm_func) {
@@ -309,16 +317,6 @@ getDataByEvent.subscribe(resultObj);*/
     }
     
     old_func = decorate(old_func, new_func);
-
-    //-------------||-----------------
-
-    old_func = (function(fn) {
-        return function () {
-            new_func();
-            return fn.apply(this, arguments);
-        }               
-    }(old_func))
-
 
 //17)--------------------------------------------adding your styles------------------------
     function mm_style(css, id) {
@@ -424,35 +422,45 @@ frame0.onresize = function() {
 }
 
 //26) ------------------------- popup centered
-'#overlay {' +
-    'position: fixed;' +
-    'top: 0px;' +
-    'left: 0px;' +
-    'height: 120%;' +
-    'width: 100%;' +
-    'opacity: 0.65;' +
-    'background-color: #000;' +
-    'z-index: 99998;' +
-'}' +
-'#popup {' +
-    'position: fixed;' +
-    'width: 100%;' +
-    'height: 100%;' +
-    'display: flex;' +
-    'display: -webkit-flex;' +
-    'overflow: auto;' +
-    'flex-direction: column;' +
-    'z-index: 99999;' +
-'}' +
-'#popup .wrap_centered {' +
-    'margin: auto;' +
-    'width: (any)px;' +
-    'height: (any)px;' +
-    'position: relative;' +
-    'padding: 30px;' +
-    'overflow: hidden;' +
-    'background-color: white;' +
-'}'
+#overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 120%;
+    width: 100%;
+    opacity: 0.65;
+    background-color: #000;
+    z-index: 99998;
+}
+#popup {
+    position: fixed;
+    margin: auto;
+    top: 50%;
+    left: 0px;
+    right: 0px;
+    width: 200px;
+    z-index: 99999;
+    background-color: white;
+}
+
+// or
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.65;
+    background-color: #000;
+    z-index: 99998;
+}
+#overlay>#popup {
+    z-index: 99999;
+    padding: 30px;
+    background: white;
+}
 
 //27) ------------------------- dinamic mm_inner_HTML
 /**
@@ -573,5 +581,4 @@ var openSelect = function(selector){
         alert("It didn't worked in your browser.");
     }   
 }
-
 openSelect('...selcetor');
