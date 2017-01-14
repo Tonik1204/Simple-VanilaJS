@@ -426,20 +426,20 @@ frame0.onresize = function() {
     position: fixed;
     top: 0px;
     left: 0px;
-    height: 120%;
+    height: 100%;
     width: 100%;
     opacity: 0.65;
     background-color: #000;
-    z-index: 99998;
+    z-index: 998;
 }
 #popup {
     position: fixed;
     margin: auto;
-    top: 50%;
+    top: 20%;
     left: 0px;
     right: 0px;
-    width: 200px;
-    z-index: 99999;
+    padding: 30px;
+    z-index: 999;
     background-color: white;
 }
 
@@ -454,10 +454,10 @@ frame0.onresize = function() {
     align-items: center;
     opacity: 0.65;
     background-color: #000;
-    z-index: 99998;
+    z-index: 998;
 }
 #overlay>#popup {
-    z-index: 99999;
+    z-index: 999;
     padding: 30px;
     background: white;
 }
