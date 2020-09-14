@@ -1,4 +1,4 @@
-Tonik
+Fist Steps in JS
 =====
 
 Javascript
